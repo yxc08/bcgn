@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本草纲目 - 目录导航</title>
+    <title>本草纲目</title>
     <style>
         * {
             margin: 0;
@@ -319,6 +319,26 @@
             margin-bottom: 20px;
         }
 
+        .menu-btn {
+            display: none;
+            position: fixed;
+            left: 16px;
+            top: 16px;
+            z-index: 3000;
+            background: #8b4513;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            font-size: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mask { display: none; }
+
         @media (max-width: 1200px) {
             .sidebar { width: 240px; }
             .main-content { margin-left: 240px; padding: 20px 25px; }
@@ -331,9 +351,21 @@
                 top: 0;
                 bottom: 0;
                 z-index: 2000;
+                transition: left .3s ease;
             }
             .sidebar.open { left: 0; }
-            .main-content { margin-left: 0; }
+            .main-content { margin-left: 0; padding: 16px 14px; }
+            .menu-btn { display: flex; }
+            .mask {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.4);
+                z-index: 1900;
+            }
+            .mask.hide { display: none; }
+            .top-controls { gap: 10px; }
+            .search-box { max-width: 100%; }
         }
     </style>
 </head>
@@ -359,9 +391,8 @@
             <div class="font-controls">
                 <button onclick="adjustFontSize(-1)">A-</button>
                 <button onclick="adjustFontSize(1)">A+</button>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 切换古籍模式</button>
             </div>
-
-            <button class="theme-toggle" onclick="toggleTheme()">🌙 切换古籍模式</button>
 
             <div class="volume-info" id="volume-info">
                 <strong>目录导航 · 点击部名进入对应页面</strong>
@@ -371,7 +402,8 @@
         </div>
     </div>
 
-    <button class="theme-toggle" onclick="toggleSidebar()" style="position:fixed; left:20px; top:50%; z-index:3000; background:#8b4513; color:#fff; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer;" id="mobile-menu-btn">☰</button>
+    <button class="menu-btn" onclick="toggleSidebar()" id="mobile-menu-btn">☰</button>
+    <div class="mask hide" id="mask" onclick="toggleSidebar()"></div>
 
     <script>
         // ================= 部类目录：name 部名，page 跳转的新建页面文件 =================
@@ -517,13 +549,13 @@
                     !sidebar.contains(e.target) &&
                     !menuBtn.contains(e.target) &&
                     sidebar.classList.contains('open')) {
-                    sidebar.classList.remove('open');
+                    closeSidebar();
                 }
             });
 
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768) {
-                    document.getElementById('sidebar').classList.remove('open');
+                    closeSidebar();
                 }
             });
         }
@@ -540,6 +572,12 @@
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('mask').classList.toggle('hide');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('mask').classList.add('hide');
         }
     </script>
 </body>
