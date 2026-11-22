@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本草纲目 · 介部</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"SimSun","宋体","STSong",serif; }
+  body { background:#f4f1e8; color:#4a3728; line-height:1.8; min-height:100vh; }
+  body.dark-mode { background:#2d241a; color:#e8d5b8; }
+  .wrap { max-width:1400px; margin:0 auto; }
+  .wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,#8b4513 33%,#d2691e 33%,#d2691e 66%,#8b4513 66%); }
+  .sidebar { width:260px; background:linear-gradient(180deg,#e8d5b8,#f4f1e8); border-right:3px double #8b4513;
+    padding:20px 15px; position:fixed; left:0; top:20px; bottom:20px; overflow-y:auto; z-index:1000; }
+  body.dark-mode .sidebar { background:linear-gradient(180deg,#4a3728,#2d241a); }
+  .sidebar h2 { font-size:22px; color:#8b4513; text-align:center; padding-bottom:12px; margin-bottom:15px;
+    border-bottom:2px solid #8b4513; letter-spacing:3px; }
+  body.dark-mode .sidebar h2 { color:#e8d5b8; }
+  .med-item { padding:10px 12px; margin-bottom:6px; background:linear-gradient(90deg,#d2691e,#8b4513);
+    color:#fff; border-radius:5px; cursor:pointer; font-size:15px; }
+  .med-item:hover { filter:brightness(1.1); }
+  .med-item.active { outline:2px solid #4a3728; }
+  .main { margin-left:260px; padding:30px 40px; min-height:100vh; }
+  .top-bar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin-bottom:20px; }
+  .pagination { display:flex; gap:10px; }
+  .pagination button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .pagination button:hover { filter:brightness(1.1); }
+  .pagination button:disabled { background:#ccc; cursor:not-allowed; }
+  .tools { display:flex; gap:10px; align-items:center; }
+  .tools button { width:35px; height:35px; border:none; border-radius:50%; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+  .theme-toggle { padding:5px 15px; border:none; border-radius:20px; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+  .volume-info { text-align:center; padding:15px; margin-bottom:20px; background:linear-gradient(90deg,rgba(139,69,19,.1),transparent); border-radius:5px; }
+  .volume-info strong { color:#8b4513; font-size:18px; letter-spacing:2px; }
+  body.dark-mode .volume-info strong { color:#e8d5b8; }
+  .card { background:linear-gradient(180deg,#fff,#f9f5eb); border:1px solid #d4c4a8; border-radius:8px; padding:30px; position:relative; }
+  body.dark-mode .card { background:linear-gradient(180deg,#3d3022,#2d241a); border-color:#5a4433; }
+  .card-header { text-align:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #d4c4a8; }
+  .card-title { font-size:28px; color:#8b4513; letter-spacing:2px; }
+  body.dark-mode .card-title { color:#e8d5b8; }
+  .card-sub { font-size:14px; color:#a07040; margin-top:6px; }
+  .section { margin:18px 0; }
+  .section-title { font-size:16px; color:#8b4513; font-weight:bold; padding-left:10px; border-left:3px solid #d2691e; margin-bottom:5px; }
+  body.dark-mode .section-title { color:#e8d5b8; }
+  .section-text { font-size:15px; line-height:1.9; padding:6px 10px; border-radius:4px; white-space:pre-wrap; outline:none; }
+  .section-text:focus { background:rgba(139,69,19,.1); }
+  .back-home { display:inline-block; margin-bottom:15px; color:#8b4513; cursor:pointer; text-decoration:underline; font-size:14px; }
+  @media (max-width:768px){ .sidebar{position:fixed;left:-260px;}.main{margin-left:0;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sidebar" id="sidebar">
+    <h2>本草纲目</h2>
+    <div id="med-list"></div>
+  </div>
+  <div class="main">
+    <div class="top-bar">
+      <div class="pagination">
+        <button onclick="prevDept()" id="prev-btn">❮ 上一部</button>
+        <button onclick="nextDept()" id="next-btn">下一部 ❯</button>
+      </div>
+      <div class="tools">
+        <button onclick="adjustFont(-1)">A-</button>
+        <button onclick="adjustFont(1)">A+</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 古籍模式</button>
+      </div>
+    </div>
+    <a class="back-home" href="本草纲目-目录导航.html">‹ 返回目录</a>
+    <div class="volume-info" id="volume-info"><strong>介部</strong></div>
+    <div id="content-area"></div>
+  </div>
+</div>
+<script>
+const books = [{"name":"草部","department":"草","page":"cao.html","medicines":[{"name":"人参","content":{"释名":"《说文》：人以为主也。《尔雅》：三苗曰人。\n《别录》：人参，生上党吕梁山、上党，甘，微温，无毒。","气味":"甘，微温，无毒","主治":"补五脏，安精神，定魂魄，止惊悸，除邪气，开心益智，久服轻身延年","发明":"李时珍曰：人参甘温，补阳益肺，为补气之要药。\n肺火旺盛、阴虚火旺者不宜。","附方01":"《千金方》：人参三两，茯苓三两，白术三两，甘草三两。\n上四味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。","附方02":"人参汤：治脾胃虚弱。\n人参一两，白术一两，甘草一两，大枣四枚，水三升，煮取一升，温服。"}},{"name":"甘草","content":{"释名":"《说文》：草有甘者，曰甘草。\n《别录》：甘草，甘，平，无毒。","气味":"甘，平，无毒","主治":"补五脏补虚，除邪解毒，缓急，补诸不足，续血脉，解百毒","发明":"李时珍曰：甘草味甘性平，调和诸药，国老之称由此。\n中满呕吐、湿盛胀满者忌服。","附方":"《千金方》：甘草三两，生姜三两，大枣五枚。\n上三味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。"}},{"name":"茯苓","content":{"释名":"《说文》：茯，香也。\n《别录》：茯苓，甘，平，无毒。","气味":"甘，平，无毒","主治":"胸痹心痛，不足，利小便，益气，止消渴，久服轻身","发明":"李时珍曰：茯苓甘淡渗利，健脾宁心。\n白茯苓偏补脾利湿，赤茯苓偏利湿热。","附方":"《千金方》：茯苓三两，桂心三两，白术三两。\n上三味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。"}}]},{"name":"谷部","department":"谷","page":"gu.html","medicines":[{"name":"大豆","content":{"释名":"《说文》：豆，蔬谷类也。\n《别录》：大豆，甘，平，无毒。","气味":"甘，平，无毒","主治":"胀满，泄痢，下气，补少气不足，肢体瘦损，水气，黄疸","发明":"李时珍曰：大豆甘平，健脾宽中，润燥消水。","附方":"《千金方》：大豆六钱，生姜一钱。\n上二味，同炒去壳，捣碎，每服三钱，水煎温服。"}},{"name":"小麦","content":{"释名":"《说文》：麦，五穀之秀也。\n《别录》：小麦，甘，平，无毒。","气味":"甘，平，无毒","主治":"消渴，心腹邪气，热中，消谷，下痢，补不足，除烦","发明":"李时珍曰：小麦甘平，养心益肾，除烦止渴。","附方":"《千金方》：小麦三两，甘草三两。\n上二味，捣筛为散，每服五钱，水煎温服。"}}]},{"name":"菜部","department":"菜","page":"cai.html","medicines":[{"name":"芝麻","content":{"释名":"《别录》：芝麻，甘，平，无毒。","气味":"甘，平，无毒","主治":"消渴，补五脏，益气力，长肌肉，填脑，轻身","发明":"李时珍曰：芝麻润燥养血，补肝肾。","附方":"《千金方》：芝麻六钱，酥二两。\n同炒捣碎，每服三钱，水煎温服。"}},{"name":"菠菜","content":{"释名":"《本草经集注》：菠菜，一名冬葵。","气味":"甘，平，无毒","主治":"益血，补虚，止渴，除风热，益精，强阴","发明":"李时珍曰：菠菜养血止血，敛阴润燥。","附方":"《千金方》：菠菜三斤，生姜二两。\n同炒捣碎，每服三钱，水煎温服。"}}]},{"name":"果部","department":"果","page":"guo.html","medicines":[{"name":"红枣","content":{"释名":"《说文》：枣，果之属也。","气味":"甘，温，无毒","主治":"补中益气，治五脏六腑寒热邪气，安五脏，益气力","发明":"李时珍曰：红枣甘温，补中益气，养血安神。","附方":"《千金方》：红枣五枚，生姜二片。\n同炒捣碎，每服三钱，水煎温服。"}},{"name":"李子","content":{"释名":"《说文》：李，果之属也。","气味":"酸，寒，无毒","主治":"利水道，泄热，益气，补中，除热，安五脏","发明":"李时珍曰：李子酸寒，清肝涤热，生津利水。","附方":"《千金方》：李子三枚，生姜二片。\n同炒捣碎，每服三钱，水煎温服。"}}]},{"name":"木部","department":"木","page":"mu.html","medicines":[{"name":"桂枝","content":{"释名":"《说文》：桂，木之属也。","气味":"甘，温，无毒","主治":"通血脉，温肌，解表，散寒，止痛，降气，通关节","发明":"李时珍曰：桂枝辛甘温，温通经脉，解肌发表。","附方":"《千金方》：桂枝三两，白芍药三两。\n捣筛为散，每服五钱，水煎温服。"}},{"name":"当归","content":{"释名":"《别录》：当归，甘，温，无毒。","气味":"甘，温，无毒","主治":"大风，五痹，金疮，止痛，补诸不足，温经，养血，调经","发明":"李时珍曰：当归甘温，补血活血，调经止痛。","附方":"《千金方》：当归三两，白芍药三两，川芎二两。\n捣筛为散，每服五钱，水煎温服。"}}]},{"name":"虫部","department":"虫","page":"chong.html","medicines":[{"name":"蜈蚣","content":{"释名":"《别录》：蜈蚣，咸，温，无毒。","气味":"咸，温，无毒","主治":"破血，逐瘀，定惊，止痉，止痛，解毒，通经","发明":"李时珍曰：蜈蚣辛温有毒，息风镇痉，攻毒散结。","附方":"《千金方》：蜈蚣二条，全蝎一条。\n捣碎，每服三钱，水煎温服。"}},{"name":"蝉蜕","content":{"释名":"《别录》：蝉蜕，甘，寒，无毒。","气味":"甘，寒，无毒","主治":"明目，退翳，止惊，定痫，止痉，利咽，解肌，透疹","发明":"李时珍曰：蝉蜕甘寒，疏散风热，透疹解痉。","附方":"《千金方》：蝉蜕三钱，薄荷二钱。\n捣碎，每服三钱，水煎温服。"}}]},{"name":"鳞部","department":"鳞","page":"lin.html","medicines":[{"name":"龟板","content":{"释名":"《别录》：龟板，咸，寒，无毒。","气味":"咸，寒，无毒","主治":"补心，安五脏，益血，填髓，壮骨，明目，通经","发明":"李时珍曰：龟板咸寒，滋阴潜阳，益肾健骨。","附方":"《千金方》：龟板三两，白芍药三两。\n捣筛为散，每服五钱，水煎温服。"}},{"name":"鹿角","content":{"释名":"《别录》：鹿角，甘，温，无毒。","气味":"甘，温，无毒","主治":"补心，安五脏，益血，填髓，壮骨，明目，通经，止痛","发明":"李时珍曰：鹿角甘温，补肾阳，强筋骨，活血消肿。","附方":"《千金方》：鹿角三两，白芍药三两。\n捣筛为散，每服五钱，水煎温服。"}}]},{"name":"介部","department":"介","page":"jie.html","medicines":[{"name":"鳖甲","content":{"释名":"《别录》：鳖甲，咸，寒，无毒。","气味":"咸，寒，无毒","主治":"补心，安五脏，益血，填髓，壮骨，明目，通经，止痛","发明":"李时珍曰：鳖甲咸寒，滋阴潜阳，软坚散结。","附方":"《千金方》：鳖甲三两，白芍药三两。\n捣筛为散，每服五钱，水煎温服。"}}]},{"name":"禽部","department":"禽","page":"qin.html","medicines":[{"name":"鹧鸪","content":{"释名":"《别录》：鹧鸪，甘，平，无毒。","气味":"甘，平，无毒","主治":"补五脏，益气，止渴，利小便，安胎，养血，明目","发明":"李时珍曰：鹧鸪甘平，补虚益中，开胃化痰。","附方":"《千金方》：鹧鸪一枚，全蝎一条。\n捣碎，每服三钱，水煎温服。"}},{"name":"乌鸡","content":{"释名":"《别录》：乌鸡，甘，温，无毒。","气味":"甘，温，无毒","主治":"补五脏，益气，止渴，利小便，安胎，养血，明目，通经","发明":"李时珍曰：乌鸡甘温，补阴退热，益肝补血。","附方":"《千金方》：乌鸡一枚，全蝎一条。\n捣碎，每服三钱，水煎温服。"}}]},{"name":"兽部","department":"兽","page":"shou.html","medicines":[{"name":"鹿茸","content":{"释名":"《别录》：鹿茸，甘，温，无毒。","气味":"甘，温，无毒","主治":"补五脏，益气，止渴，利小便，安胎，养血，明目，通经","发明":"李时珍曰：鹿茸甘温，壮肾阳，益精血，强筋骨。","附方":"《千金方》：鹿茸二两，全蝎一条。\n捣碎，每服三钱，水煎温服。"}},{"name":"熊胆","content":{"释名":"《别录》：熊胆，苦，寒，无毒。","气味":"苦，寒，无毒","主治":"明目，退翳，止惊，定痫，止痉，利咽，解肌，透疹","发明":"李时珍曰：熊胆苦寒，清热解毒，明目止痉。","附方":"《千金方》：熊胆二钱，薄荷二钱。\n捣碎，每服三钱，水煎温服。"}}]},{"name":"金石部","department":"金石","page":"jinshi.html","medicines":[{"name":"朱砂","content":{"释名":"《别录》：朱砂，甘，微寒，无毒。","气味":"甘，微寒，无毒","主治":"镇心神，定惊悸，安神，明目，解毒，消积，通经","发明":"李时珍曰：朱砂甘寒，镇心安神，清热解毒。","附方":"《千金方》：朱砂二钱，全蝎一条。\n捣碎，每服三钱，水煎温服。"}},{"name":"雄黄","content":{"释名":"《别录》：雄黄，辛，温，有毒。","气味":"辛，温，有毒","主治":"解毒，杀虫，止痛，消积，通经，明目","发明":"李时珍曰：雄黄辛温，解毒杀虫，燥湿祛痰。","附方":"《千金方》：雄黄二钱，全蝎一条。\n捣碎，每服三钱，水煎温服。"}}]}];
+let currentDept = detectDept();
+let currentMedicine = null;
+let fontSize = 16;
+let isDark = false;
+
+function detectDept(){
+  const file = decodeURIComponent(location.pathname.split('/').pop());
+  const i = books.findIndex(b => b.page === file);
+  return i >= 0 ? i : 0;
+}
+function renderText(str){
+  if(str==null) return "";
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;').replace(/\n/g,'<br>');
+}
+function goPage(b){ location.href = b.page; }
+
+function renderSidebar(){
+  const list = document.getElementById('med-list');
+  list.innerHTML = '';
+  books[currentDept].medicines.forEach((med, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'med-item';
+    el.textContent = med.name;
+    el.onclick = ()=> loadMedicine(idx);
+    list.appendChild(el);
+  });
+}
+
+function loadMedicine(idx){
+  const dept = books[currentDept];
+  const med = dept.medicines[idx] || dept.medicines[0];
+  currentMedicine = med;
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + ' · ' + med.name + '</strong>';
+
+  const sections = Object.entries(med.content).map(([k,v])=>
+    '<div class="section"><div class="section-title">'+k+'：</div>'+
+    '<div class="section-text" contenteditable="true" spellcheck="false" data-key="'+k+'">'+renderText(v)+'</div></div>'
+  ).join('');
+
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">'+med.name+'</div>'+
+    '<div class="card-sub">'+dept.name+' · '+dept.department+'部</div></div>'+sections+'</div>';
+
+  document.querySelectorAll('.med-item').forEach((el,i)=> el.classList.toggle('active', i===idx));
+  document.querySelectorAll('.section-text').forEach(el=>{
+    el.onblur = function(){ currentMedicine.content[this.dataset.key] = this.innerText; };
+  });
+  updateNav();
+}
+
+function updateNav(){
+  const prev = document.getElementById('prev-btn');
+  const next = document.getElementById('next-btn');
+  prev.disabled = currentDept === 0;
+  next.disabled = currentDept === books.length - 1;
+  prev.textContent = currentDept>0 ? '❮ '+books[currentDept-1].name : '❮ 上一部';
+  next.textContent = currentDept<books.length-1 ? books[currentDept+1].name+' ❯' : '下一部 ❯';
+}
+function prevDept(){ if(currentDept>0){ currentDept--; goPage(books[currentDept]); } }
+function nextDept(){ if(currentDept<books.length-1){ currentDept++; goPage(books[currentDept]); } }
+function adjustFont(d){ fontSize = Math.max(12,Math.min(24,fontSize+d)); document.body.style.fontSize = fontSize+'px'; }
+function toggleTheme(){ isDark=!isDark; document.body.classList.toggle('dark-mode', isDark); }
+
+renderSidebar();
+loadMedicine(0);
+</script>
+</body>
+</html>
