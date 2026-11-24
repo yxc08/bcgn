@@ -3,581 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本草纲目</title>
+ <title>本草纲目,医宗金鉴,中医名著古籍大全,中医书籍在线阅读,在线学习中医</title>
+<meta name="description" content="本草纲目,中医宝典,医宗金鉴,中医书籍,中医名著,中医古籍,中医书籍大全" />
+<meta name="keywords" content="医典包括中医书籍有:中药大全,方剂大全,中医经论,中医伤寒,中医金匮,中医诊治,中医本草,中医方言,中医内科,中医外科,中医儿科,中医妇科,中医五官,中医针灸,中医医论" />
+<link rel="shortcut icon" href="images/favicon.ico">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'SimSun', '宋体', 'STSong', serif;
-            background-color: #f4f1e8;
-            color: #4a3728;
-            line-height: 1.8;
-            min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: "SimSun", "Songti SC", "Noto Serif SC", serif;
+            background: #f4ece0;
+            color: #5a3418;
+            line-height: 1.7;
         }
 
-        body.dark-mode {
-            background-color: #2d241a;
-            color: #e8d5b8;
-        }
-
-        .book-container {
-            max-width: 1400px;
+        /* ===== 顶部工具栏：搜索 + 翻页按钮 ===== */
+        .top-bar {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0;
-            position: relative;
-        }
-
-        .book-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #8b4513 33%, #d2691e 33%, #d2691e 66%, #8b4513 66%);
-        }
-
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, #e8d5b8 0%, #f4f1e8 100%);
-            border-right: 3px double #8b4513;
-            padding: 20px 15px;
-            position: fixed;
-            left: 0;
-            top: 20px;
-            bottom: 20px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        }
-
-        body.dark-mode .sidebar {
-            background: linear-gradient(180deg, #4a3728 0%, #2d241a 100%);
-            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-        }
-
-        .sidebar h2 {
-            font-size: 24px;
-            color: #8b4513;
-            text-align: center;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #8b4513;
-            letter-spacing: 3px;
-        }
-
-        body.dark-mode .sidebar h2 {
-            color: #e8d5b8;
-        }
-
-        /* 左侧部名导航：不再展开小类目，点击直接跳转 */
-        .dept-nav {
-            list-style: none;
-        }
-
-        .dept-nav li {
-            padding: 12px 14px;
-            margin-bottom: 8px;
-            background: linear-gradient(90deg, #d2691e 0%, #8b4513 100%);
-            color: #fff;
-            font-weight: bold;
-            font-size: 16px;
-            letter-spacing: 2px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            user-select: none;
-        }
-
-        .dept-nav li:hover {
-            background: linear-gradient(90deg, #8b4513 0%, #d2691e 100%);
-            transform: translateX(4px);
-        }
-
-        .dept-nav li.active {
-            outline: 2px solid #4a3728;
-        }
-
-        .main-content {
-            margin-left: 280px;
-            padding: 30px 40px;
-            min-height: 100vh;
-        }
-
-        .top-controls {
+            padding: 18px 16px;
             display: flex;
-            justify-content: space-between;
+            gap: 12px;
             align-items: center;
-            margin-bottom: 25px;
+            justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
         }
-
         .search-box {
             flex: 1;
-            max-width: 500px;
-            position: relative;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+            border: 2px solid #b45a1e;
+            border-radius: 30px;
+            background: #fff;
+            padding: 0 16px;
         }
-
         .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            font-family: 'SimSun', serif;
-            font-size: 16px;
-            border: 2px solid #8b4513;
-            border-radius: 25px;
-            background-color: rgba(255,255,255,0.8);
-            color: #4a3728;
-            transition: all 0.3s;
-        }
-
-        body.dark-mode .search-box input {
-            background-color: rgba(0,0,0,0.3);
-            color: #e8d5b8;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: #d2691e;
-            box-shadow: 0 0 10px rgba(210, 105, 30, 0.3);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #8b4513;
-        }
-
-        body.dark-mode .search-icon {
-            color: #e8d5b8;
-        }
-
-        .pagination {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .pagination button {
-            padding: 10px 20px;
-            font-family: 'SimSun', serif;
-            font-size: 15px;
-            background: linear-gradient(90deg, #8b4513 0%, #d2691e 100%);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .pagination button:hover {
-            background: linear-gradient(90deg, #d2691e 0%, #8b4513 100%);
-            transform: translateY(-2px);
-        }
-
-        .pagination button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .font-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .font-controls button {
-            width: 35px;
-            height: 35px;
-            padding: 0;
-            font-family: 'SimSun', serif;
-            font-size: 12px;
-            background: linear-gradient(90deg, #8b4513 0%, #d2691e 100%);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .font-controls button:hover {
-            transform: scale(1.1);
-        }
-
-        .theme-toggle {
-            padding: 5px 15px;
-            font-family: 'SimSun', serif;
-            background: linear-gradient(90deg, #8b4513 0%, #d2691e 100%);
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-        }
-
-        .volume-info {
-            text-align: center;
-            padding: 15px;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, rgba(139,69,19,0.1) 0%, transparent 100%);
-            border-radius: 5px;
-        }
-
-        body.dark-mode .volume-info {
-            background: linear-gradient(90deg, rgba(232,213,184,0.1) 0%, transparent 100%);
-        }
-
-        .volume-info strong {
-            color: #8b4513;
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-
-        body.dark-mode .volume-info strong {
-            color: #e8d5b8;
-        }
-
-        /* 右侧部卡片 */
-        .dept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .dept-card {
-            background: linear-gradient(180deg, #fff 0%, #f9f5eb 100%);
-            border: 1px solid #d4c4a8;
-            border-radius: 8px;
-            padding: 28px 20px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-        }
-
-        body.dark-mode .dept-card {
-            background: linear-gradient(180deg, #3d3022 0%, #2d241a 100%);
-            border-color: #5a4433;
-        }
-
-        .dept-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            border-color: #8b4513;
-        }
-
-        .dept-card .card-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .dept-card .card-name {
-            font-size: 22px;
-            color: #8b4513;
-            font-weight: bold;
-            letter-spacing: 3px;
-            margin-bottom: 6px;
-        }
-
-        body.dark-mode .dept-card .card-name {
-            color: #e8d5b8;
-        }
-
-        .dept-card .card-desc {
-            font-size: 13px;
-            color: #a07040;
-        }
-
-        .no-result {
-            text-align: center;
-            padding: 50px;
-            color: #8b4513;
-        }
-
-        body.dark-mode .no-result {
-            color: #e8d5b8;
-        }
-
-        .no-result::before {
-            content: '📚';
-            font-size: 60px;
-            display: block;
-            margin-bottom: 20px;
-        }
-
-        .menu-btn {
-            display: none;
-            position: fixed;
-            left: 16px;
-            top: 16px;
-            z-index: 3000;
-            background: #8b4513;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
+            flex: 1;
             height: 44px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            background: transparent;
+        }
+        .search-box .icon { color: #b45a1e; cursor: pointer; }
+        .btn {
+            height: 44px;
+            padding: 0 22px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
             cursor: pointer;
-            font-size: 20px;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .btn-gray { background: #b9b2a8; }
+        .btn-brown { background: #b45a1e; }
+        .btn-brown:hover { background: #964815; }
+
+        /* ===== 大标题横幅 ===== */
+        .hero {
+            max-width: 1100px;
+            margin: 10px auto;
+            background: #ece0cf;
+            border-radius: 16px;
+            text-align: center;
+            padding: 34px 16px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            color: #6b3a17;
+            letter-spacing: 10px;
+            font-weight: bold;
+        }
+        .hero p { margin-top: 8px; color: #8a7258; font-size: 15px; }
+
+        /* ===== 书籍封面区（4本，换图直接改 img 的 src） ===== */
+        .books {
+            max-width: 1100px;
+            margin: 26px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+        .book-card {
+            background: #fffdf9;
+            border: 1px solid #e6d5c0;
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
+            text-decoration: none;
+            color: #5a3418;
+            transition: box-shadow .2s;
+        }
+        .book-card:hover { box-shadow: 0 6px 18px rgba(150, 72, 21, .15); }
+        /* 封面图：把自己的图片命名 book1.jpg~book4.jpg 放进 assets 文件夹即可 */
+        .book-cover {
+            width: 100%;
+            height: 260px;
+            border-radius: 12px;
+            background: #ece0cf center/cover no-repeat;
+            display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .book-cover .placeholder { color: #b89a78; font-size: 15px; }
+        .book-card h3 { font-size: 20px; margin-bottom: 6px; }
+        .book-card p { color: #8a7258; font-size: 14px; }
+
+        /* ===== 分类查询区 ===== */
+        .category-section {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+        .category-title {
+            text-align: center;
+            color: #b45a1e;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+        .category-card {
+            background: #fffdf9;
+            border: 1px solid #e6d5c0;
+            border-radius: 16px;
+            padding: 22px 14px;
+            text-align: center;
+            text-decoration: none;
+            color: #5a3418;
+        }
+        .category-card:hover { box-shadow: 0 6px 18px rgba(150, 72, 21, .15); }
+        .category-card .icon { font-size: 34px; margin-bottom: 10px; }
+        .category-card h3 { font-size: 19px; margin-bottom: 4px; }
+        .category-card p { color: #8a7258; font-size: 13px; }
+
+        /* ===== 底部版权 ===== */
+        footer {
+            max-width: 1100px;
+            margin: 40px auto 20px;
+            padding: 16px;
+            text-align: center;
+            color: #8a7258;
+            font-size: 14px;
+            border-top: 1px solid #e6d5c0;
         }
 
-        .mask { display: none; }
-
-        @media (max-width: 1200px) {
-            .sidebar { width: 240px; }
-            .main-content { margin-left: 240px; padding: 20px 25px; }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: -280px;
-                top: 0;
-                bottom: 0;
-                z-index: 2000;
-                transition: left .3s ease;
-            }
-            .sidebar.open { left: 0; }
-            .main-content { margin-left: 0; padding: 16px 14px; }
-            .menu-btn { display: flex; }
-            .mask {
-                display: block;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,.4);
-                z-index: 1900;
-            }
-            .mask.hide { display: none; }
-            .top-controls { gap: 10px; }
-            .search-box { max-width: 100%; }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 26px; letter-spacing: 6px; }
+            .top-bar .btn { padding: 0 14px; }
         }
     </style>
 </head>
 <body>
-    <div class="book-container">
-        <div class="sidebar" id="sidebar">
-            <h2>目录</h2>
-            <ul class="dept-nav" id="dept-nav"></ul>
-        </div>
 
-        <div class="main-content">
-            <div class="top-controls">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="🔍 搜索部类名称...">
-                    <span class="search-icon">🔍</span>
-                </div>
-                <div class="pagination">
-                    <button onclick="prevDept()" id="prev-btn" disabled>❮ 上一部</button>
-                    <button onclick="nextDept()" id="next-btn">下一部 ❯</button>
-                </div>
-            </div>
-
-            <div class="font-controls">
-                <button onclick="adjustFontSize(-1)">A-</button>
-                <button onclick="adjustFontSize(1)">A+</button>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙 切换古籍模式</button>
-            </div>
-
-            <div class="volume-info" id="volume-info">
-                <strong> <h1>本草纲目</h1></strong>
-            </div>
-
-            <div id="content-area"></div>
-        </div>
+    <!-- ===== 顶部工具栏 ===== -->
+   
+    <!-- ===== 大标题横幅 ===== -->
+    <div class="hero">
+        <h1>本草纲目</h1>
+        <p>古本手写转录 · 简体整理注释本</p>
     </div>
 
-    <button class="menu-btn" onclick="toggleSidebar()" id="mobile-menu-btn">☰</button>
-    <div class="mask hide" id="mask" onclick="toggleSidebar()"></div>
+    <!-- ===== 四本古籍封面 =====
+        换封面方法：
+        1. 把自己的封面图放进 assets 文件夹，依次命名 book1.jpg、book2.jpg、book3.jpg、book4.jpg
+        2. 不想改文件名的话，直接修改下面 <img src="assets/xxx.jpg"> 里的路径
+        3. 改书名、简介就改卡片里的 h3 和 p；加新书就复制一整段 .book-card
+    -->
+    <div class="books">
+        <a class="book-card" href="bcgm.html">
+            <div class="book-cover">
+                <img src="images/本草纲目.png" alt="本草纲目封面" onerror="this.style.display='none'">
+                <span class="placeholder">封面图 1</span>
+            </div>
+            <h3>本草纲目</h3>
+            <p>五十二卷 · 古本整理转录</p>
+        </a>
+        <a class="book-card" href="bencao.html#谷部">
+            <div class="book-cover">
+                <img src="images/医宗金鉴.png" alt="医方集解封面" onerror="this.style.display='none'">
+                <span class="placeholder">封面图 2</span>
+            </div>
+            <h3>医方集解</h3>
+            <p>方剂分类备查</p>
+        </a>
+        <a class="book-card" href="bencao.html#菜部">
+            <div class="book-cover">
+                <img src="assets/book3.jpg" alt="饮食须知封面" onerror="this.style.display='none'">
+                <span class="placeholder">封面图 3</span>
+            </div>
+            <h3>饮食须知</h3>
+            <p>日常食味宜忌</p>
+        </a>
+        <a class="book-card" href="bencao.html#果部">
+            <div class="book-cover">
+                <img src="assets/book4.jpg" alt="饮膳正要封面" onerror="this.style.display='none'">
+                <span class="placeholder">封面图 4</span>
+            </div>
+            <h3>饮膳正要</h3>
+            <p>食疗膳养记录</p>
+        </a>
+    </div>
 
-    <script>
-        // ================= 部类目录：name 部名，page 跳转的新建页面文件 =================
-        const books = [
-            { name: "草部", department: "草", page: "cao.html",   icon: "🌿", desc: "草本药物" },
-            { name: "谷部", department: "谷", page: "gu.html",    icon: "🌾", desc: "五谷豆类" },
-            { name: "菜部", department: "菜", page: "cai.html",  icon: "🥬", desc: "蔬菜类" },
-            { name: "果部", department: "果", page: "guo.html",  icon: "🍎", desc: "水果类" },
-            { name: "木部", department: "木", page: "mu.html",  icon: "🌳", desc: "木本药物" },
-            { name: "虫部", department: "虫", page: "chong.html", icon: "🐛", desc: "虫类药物" },
-            { name: "鳞部", department: "鳞", page: "lin.html",  icon: "🐟", desc: "鳞介鱼类" },
-            { name: "介部", department: "介", page: "jie.html",   icon: "🐢", desc: "龟鳖甲壳" },
-            { name: "禽部", department: "禽", page: "qin.html",  icon: "🐦", desc: "鸟类药物" },
-            { name: "兽部", department: "兽", page: "shou.html",  icon: "🦌", desc: "兽类药物" },
-            { name: "金石部", department: "金石", page: "jinshi.html", icon: "🪨", desc: "金石矿物" }
-        ];
+    <!-- ===== 中药分类查询（15部卡片，点击跳转本草纲目对应分部） ===== -->
+    <div class="category-section">
+        <div class="category-title">中药分类查询</div>
+        <div class="category-grid">
+           <a class="category-card" href="bencao.html#水部"><div class="icon">💧</div><h3>水部</h3><p>水类药物</p></a>
+            <a class="category-card" href="bencao.html#火部"><div class="icon">🔥</div><h3>火部</h3><p>火类药物</p></a>
+            <a class="category-card" href="bencao.html#土部"><div class="icon">🟫</div><h3>土部</h3><p>土类药物</p></a>
+            <a class="category-card" href="bencao.html#金石部"><div class="icon">⛏️</div><h3>金石部</h3><p>金石矿物</p></a>
+            <a class="category-card" href="bencao.html#草部"><div class="icon">🌿</div><h3>草部</h3><p>草本药物</p></a>
+            <a class="category-card" href="bencao.html#谷部"><div class="icon">🌾</div><h3>谷部</h3><p>五谷豆类</p></a>
+            <a class="category-card" href="bencao.html#菜部"><div class="icon">🥬</div><h3>菜部</h3><p>蔬菜类</p></a>
+            <a class="category-card" href="bencao.html#果部"><div class="icon">🍎</div><h3>果部</h3><p>水果类</p></a>
+            <a class="category-card" href="bencao.html#木部"><div class="icon">🌳</div><h3>木部</h3><p>木本药物</p></a>
+            <a class="category-card" href="bencao.html#服器部"><div class="icon">🧺</div><h3>服器部</h3><p>衣物器物类</p></a>
+            <a class="category-card" href="bencao.html#虫部"><div class="icon">🐛</div><h3>虫部</h3><p>虫类药物</p></a>
+            <a class="category-card" href="bencao.html#鳞部"><div class="icon">🐟</div><h3>鳞部</h3><p>鳞甲水族</p></a>
+            <a class="category-card" href="bencao.html#介部"><div class="icon">🐚</div><h3>介部</h3><p>贝类甲壳</p></a>
+            <a class="category-card" href="bencao.html#禽部"><div class="icon">🐦</div><h3>禽部</h3><p>禽类药物</p></a>
+            <a class="category-card" href="bencao.html#兽部"><div class="icon">🐂</div><h3>兽部</h3><p>兽类药物</p></a>
+            <a class="category-card" href="bencao.html#人部"><div class="icon">🧑</div><h3>人部</h3><p>人部药材</p></a>
+        </div>
+    </div>
+	<div class="site-disclaimer">
+        <strong>⚠️ 《本草纲目》古籍阅览项目 完整免责与法律版权说明</strong>
+        <p> 本页面全部内容仅为**古代中医药古籍文化阅览、学习研究用途，绝对不构成任何医疗诊断、用药指导，不能作为实际抓药、食疗、内服外用的参考依据**，请勿直接照搬书中记载自行用药。
 
-        let currentDept = 0;
-        let searchTimeout = null;
-        let fontSize = 16;
-        let isDarkMode = false;
+## 一、医学使用风险提示
 
-        document.addEventListener('DOMContentLoaded', function() {
-            currentDept = detectDept();
-            renderSidebar();
-            renderGrid();
-            setupEventListeners();
-            updateNavButtons();
-        });
+1. 本书转录的是明代古籍原文，受时代局限，部分药材记载存在认知偏差；大量矿物药、虫类药、动物药具备毒性，存在中毒风险，部分方剂配伍、剂量已经不符合当代中医药临床规范。**一切中药使用，必须经过执业中医师、中药师辨证，凭医师处方使用**，严禁自行对照文本采药、配药、煎服、外敷。
+2. 书中兽部、禽部、鳞部、介部收录部分动物药材，**其中部分物种属于国家重点保护野生动物**，依据《中华人民共和国野生动物保护法》，禁止猎捕、杀害、交易、食用保护野生动物及其制品；即便非保护动物来源药材，也必须凭医师处方、通过具备合法资质的正规渠道获取，严禁私自采集、买卖野生动物原料中国人大网。
+3. 人部为古代古籍遗留篇目，记载人体相关入药内容，**现代伦理、医药法规大多已经禁用此类物质**，仅作历史文献存档展示，现实中不得采集、加工、使用。
 
-        // 根据当前页面文件名或 URL 参数 (?dept=cao) 识别当前是哪一部
-        function detectDept() {
-            const params = new URLSearchParams(location.search);
-            const p = params.get('dept');
-            if (p) {
-                const i = books.findIndex(b => b.page === p + '.html' || b.page === p);
-                if (i >= 0) return i;
-            }
-            const file = decodeURIComponent(location.pathname.split('/').pop());
-            const i = books.findIndex(b => b.page === file);
-            return i >= 0 ? i : 0;
-        }
+## 二、版权说明
 
-        // 跳转到指定部对应的新建页面
-        function goPage(book) {
-            window.location.href = book.page;
-        }
+1. 《本草纲目》原著属于古代公版古籍，原作者李时珍去世已远超著作权保护期限，原著文本不受现代著作权保护中国人大网。
+2. **本网页 HTML 程序代码、网页排版格式、数字化整理后的文本，为本次数字化整理产出，受著作权法保护**；仅允许个人学习阅览，未经书面许可，禁止对本网页代码、整理文本进行二次修改、批量复制、转载、商业用途发布。
+3. 引用本数字化内容，请注明来源：《本草纲目》古籍数字化阅览项目，原著：李时珍。
 
-        // 左侧目录（无小类目，点击直接跳转）
-        function renderSidebar() {
-            const nav = document.getElementById('dept-nav');
-            nav.innerHTML = '';
-            books.forEach((book, idx) => {
-                const li = document.createElement('li');
-                li.textContent = book.name;
-                li.dataset.index = idx;
-                li.onclick = () => goPage(book);
-                nav.appendChild(li);
-            });
-        }
+## 三、法律责任声明
 
-        // 右侧部卡片
-        function renderGrid(list) {
-            const area = document.getElementById('content-area');
-            const data = list || books;
-            area.innerHTML = `<div class="dept-grid">` + data.map(book => `
-                <div class="dept-card" data-page="${book.page}">
-                    <div class="card-icon">${book.icon}</div>
-                    <div class="card-name">${book.name}</div>
-                    <div class="card-desc">${book.desc}</div>
-                </div>
-            `).join('') + `</div>`;
-
-            area.querySelectorAll('.dept-card').forEach(card => {
-                card.onclick = () => {
-                    const book = books.find(b => b.page === card.dataset.page);
-                    if (book) goPage(book);
-                };
-            });
-        }
-
-        function updateNavButtons() {
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            prevBtn.disabled = currentDept === 0;
-            nextBtn.disabled = currentDept === books.length - 1;
-            prevBtn.textContent = currentDept > 0 ? `❮ ${books[currentDept - 1].name}` : '❮ 上一部';
-            nextBtn.textContent = currentDept < books.length - 1 ? `${books[currentDept + 1].name} ❯` : '下一部 ❯';
-        }
-
-        // 上一部 / 下一部：按当前部顺序直接跳转到对应新建页面
-        function prevDept() {
-            if (currentDept > 0) {
-                currentDept--;
-                updateNavButtons();
-                goPage(books[currentDept]);
-            }
-        }
-
-        function nextDept() {
-            if (currentDept < books.length - 1) {
-                currentDept++;
-                updateNavButtons();
-                goPage(books[currentDept]);
-            }
-        }
-
-        function setupEventListeners() {
-            const searchInput = document.getElementById('search-input');
-            searchInput.addEventListener('input', function(e) {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(function() {
-                    const term = e.target.value.trim().toLowerCase();
-                    if (term) {
-                        const results = books.filter(b =>
-                            b.name.toLowerCase().includes(term) ||
-                            b.desc.toLowerCase().includes(term)
-                        );
-                        if (results.length > 0) {
-                            renderGrid(results);
-                        } else {
-                            document.getElementById('content-area').innerHTML = `
-                                <div class="no-result">
-                                    <h2>📚 未找到相关部类</h2>
-                                    <p>请尝试其他关键词</p>
-                                </div>`;
-                        }
-                    } else {
-                        renderGrid();
-                    }
-                }, 300);
-            });
-
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            mobileMenuBtn.onclick = function() {
-                document.getElementById('sidebar').classList.toggle('open');
-            };
-
-            document.addEventListener('click', function(e) {
-                const sidebar = document.getElementById('sidebar');
-                const menuBtn = document.getElementById('mobile-menu-btn');
-                if (window.innerWidth <= 768 &&
-                    !sidebar.contains(e.target) &&
-                    !menuBtn.contains(e.target) &&
-                    sidebar.classList.contains('open')) {
-                    closeSidebar();
-                }
-            });
-
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    closeSidebar();
-                }
-            });
-        }
-
-        function adjustFontSize(delta) {
-            fontSize = Math.max(12, Math.min(24, fontSize + delta));
-            document.body.style.fontSize = fontSize + 'px';
-        }
-
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('dark-mode', isDarkMode);
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('mask').classList.toggle('hide');
-        }
-
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('mask').classList.add('hide');
+1. 用户如无视本提示，直接依据本网页古籍内容自行采药、服药、购买保护动物制品，由此产生的身体损害、行政处罚、刑事追责，全部由行为人自行承担，本项目不承担任何民事、行政、刑事责任。
+2. 网页尽力还原古籍内容，但不保证数字化文本零错漏，古籍内容不代表现代医学观点，仅供文史、中医药文献研究阅读。
+3. 本说明优先级高于页面内全部药材条文，使用本网页即代表已阅读、知晓并同意全部上述条款。</p>
+    </div>
+    <footer>
+        © 2026 古本《本草纲目》简体转录与自主注释整理本 · 未经许可禁止复制整套文稿与网页
+    </footer>  <script>
+        function doSearch() {
+            const kw = document.getElementById('searchInput').value.trim();
+            if (!kw) { alert('请输入药材名或部类名称'); return; }
+            window.location.href = 'bencao.html?kw=' + encodeURIComponent(kw);
         }
     </script>
 </body>
