@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>本草纲目,医宗金鉴,中医名著古籍大全,中医书籍在线阅读,在线学习中医</title>
-<meta name="description" content="本草纲目,中医宝典,医宗金鉴,中医书籍,中医名著,中医古籍,中医书籍大全" />
-<meta name="keywords" content="医典包括中医书籍有:中药大全,方剂大全,中医经论,中医伤寒,中医金匮,中医诊治,中医本草,中医方言,中医内科,中医外科,中医儿科,中医妇科,中医五官,中医针灸,中医医论" />
+ <title>本草方药文库 · 中医古籍在线查阅平台</title>
+<meta name="description" content="本草方药文库，专注中医经典古籍数字化整理，收录《本草纲目》《医宗金鉴》《药方汇集》《杂病汇集》，提供本草、方剂、药方与杂病文献在线查阅。" />
+<meta name="keywords" content="本草方药文库,本草纲目,医宗金鉴,中医古籍,中药大全,方剂大全,药方汇集,杂病汇集,中医书籍在线阅读" />
 <link rel="shortcut icon" href="images/favicon.ico">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,11 +71,12 @@
         }
         .hero h1 {
             font-size: 36px;
-            color: #6b3a17;
+            color: #4a2810;
             letter-spacing: 10px;
-            font-weight: bold;
+            font-weight: 900;
         }
-        .hero p { margin-top: 8px; color: #8a7258; font-size: 15px; }
+        .hero .subtitle { margin-top: 10px; color: #b45a1e; font-size: 16px; letter-spacing: 3px; }
+        .hero .intro { margin-top: 10px; color: #8a7258; font-size: 15px; max-width: 760px; margin-left: auto; margin-right: auto; }
 
         /* ===== 书籍封面区（4本，换图直接改 img 的 src） ===== */
         .books {
@@ -152,6 +153,23 @@
         .category-card h3 { font-size: 19px; margin-bottom: 4px; }
         .category-card p { color: #8a7258; font-size: 13px; }
 
+        /* ===== 关于本站 ===== */
+        .site-disclaimer {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 26px 22px;
+            background: #fffdf9;
+            border: 1px solid #e6d5c0;
+            border-radius: 16px;
+            color: #5a3418;
+        }
+        .site-disclaimer h2 { font-size: 20px; color: #6b3a17; margin-bottom: 12px; letter-spacing: 2px; }
+        .site-disclaimer h3 { font-size: 16px; color: #b45a1e; margin: 18px 0 8px; }
+        .site-disclaimer p { margin: 6px 0; font-size: 14px; color: #6b4a2a; }
+        .site-disclaimer ul { margin: 6px 0 6px 20px; font-size: 14px; color: #6b4a2a; }
+        .site-disclaimer li { margin: 5px 0; }
+        .site-disclaimer .tip { color: #8a7258; }
+
         /* ===== 底部版权 ===== */
         footer {
             max-width: 1100px;
@@ -175,8 +193,9 @@
    
     <!-- ===== 大标题横幅 ===== -->
     <div class="hero">
-        <h1>本草纲目</h1>
-        <p>古本手写转录 · 简体整理注释本</p>
+        <h1>本草方药文库</h1>
+        <p class="subtitle">古本手写转录 · 简体整理注释本</p>
+        <p class="intro">收录《本草纲目》《医宗金鉴》等经典医籍，提供本草研读、方剂备查、药方检索与杂病文献参考，方便中医爱好者与从业者查阅古籍、梳理方药。</p>
     </div>
 
     <!-- ===== 四本古籍封面 =====
@@ -192,14 +211,14 @@
                 
             </div>
             <h3>本草纲目</h3>
-            <p>五十二卷 · 古本整理转录</p>
+            <p>五十二卷古本整理</p>
         </a>
         <a class="book-card" href="yzj/01伤寒论注.html">
             <div class="book-cover">
-                <img src="images/医宗金鉴.png" alt="医方集解封面" onerror="this.style.display='none'">
+                <img src="images/医宗金鉴.png" alt="医宗金鉴封面" onerror="this.style.display='none'">
           
             </div>
-            <h3>医方集解</h3>
+            <h3>医宗金鉴</h3>
             <p>方剂分类备查</p>
         </a>
         <a class="book-card" href="yzj/伤寒论注01.html">
@@ -208,7 +227,7 @@
                 
             </div>
             <h3>药方汇集</h3>
-            <p>配方查阅</p>
+            <p>古方配方检索</p>
         </a>
         <a class="book-card" href="zbj/zbj.html">
             <div class="book-cover">
@@ -216,18 +235,29 @@
                 
             </div>
             <h3>杂病汇集</h3>
-            <p>杂病查阅</p>
+            <p>杂病论治参考</p>
         </a>
     </div>
 
     <!-- ===== 中药分类查询（15部卡片，点击跳转本草纲目对应分部） ===== -->
   
-	<div class="site-disclaimer">
-        <strong>⚠️ 免责与法律版权说明</strong>
-        <p>本网页仅为明代古籍《本草纲目》的文化阅览与文献研究整理，不构成任何医疗诊断或用药指导，不能作为抓药、内服、外用的参考依据。书中部分矿物药、虫类药有毒，部分动物药材涉及国家保护野生动物，受《野生动物保护法》等法规管制，须凭执业医师处方、通过合法正规渠道使用，严禁私自采集、猎捕、交易；人部条目为历史文献存档，现代已禁用，切勿自行内服。古籍内容受时代局限，不代表现代医学观点，由此自行用药产生的后果由使用者自负。原著《本草纲目》为公版古籍。</p>
+    <div class="site-disclaimer">
+        <h2>关于本站</h2>
+        <p><strong>本草方药文库</strong>是中医古籍数字化查阅平台，以古本原文为底本，进行手写转录、简体整理与注释，保留古籍原意，降低古文阅读门槛。站点坚持轻量化设计，主打快速检索、安静研读，为中医爱好者、研习者打造一处线上古医书房。</p>
+
+        <h3>本站内容</h3>
+        <ul>
+            <li>《本草纲目》：五十二卷古本转录，查阅本草性味、功效、附方</li>
+            <li>《医宗金鉴》：方剂分类归档，按门类检索古方</li>
+            <li>《药方汇集》：历代配方汇集，查阅方药组成</li>
+            <li>《杂病汇集》：病症与古法论治参考</li>
+        </ul>
+
+        <h3>温馨提示</h3>
+        <p class="tip">本站内容仅作传统文化与中医古籍文献学习研究使用，<strong>不能替代执业医师诊断与处方</strong>，不构成任何诊疗建议。如有身体不适，请及时就医。</p>
     </div>
     <footer>
-        © 2026 古本《本草纲目》简体转录与自主注释整理本 · 整套文稿与网页
+        © 2026 本草方药文库 · 古本简体转录与自主注释整理本
     </footer>  <script>
         function doSearch() {
             const kw = document.getElementById('searchInput').value.trim();
