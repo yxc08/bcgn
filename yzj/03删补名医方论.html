@@ -139,24 +139,25 @@
 <div class="main">
   <div class="sidebar" id="sidebar">
     <div class="sidebar-title">删补名医方论</div>
-    <div class="sidebar-item" data-index="1">订正仲景全书伤寒论注</div>
-    <div class="sidebar-item" data-index="2">辨太阳病脉证并治上篇</div>
-    <div class="sidebar-item" data-index="3">辨太阳病脉证并治中篇</div>
-    <div class="sidebar-item" data-index="4">辨太阳病脉证并治下篇</div>
-    <div class="sidebar-item" data-index="5">辨阳明病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="6">辨少阳病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="7">辨太阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="8">辨少阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="9">辨厥阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="10">辨合病并病脉证并治篇</div>
-    <div class="sidebar-item" data-index="11">辨差后劳复食复阴阳易病脉证并治篇</div>
-    <div class="sidebar-item" data-index="12">辨坏病脉证并治篇</div>
-    <div class="sidebar-item" data-index="13">辨温病脉证并治篇</div>
-    <div class="sidebar-item" data-index="14">辨痉湿暍病脉证并治篇</div>
-    <div class="sidebar-item" data-index="15">辨霍乱病脉证并治篇</div>
-    <div class="sidebar-item" data-index="16">辨可汗病脉证篇</div>
-    <div class="sidebar-item" data-index="17">辨不可汗病脉证篇</div>
-    <div class="sidebar-item" data-index="18">辨可吐病脉证篇</div>
+	<div class="sidebar-item" data-index="0">名医方论</div>
+    <div class="sidebar-item" data-index="1">独参汤</div>
+    <div class="sidebar-item" data-index="2">参附汤</div>
+    <div class="sidebar-item" data-index="3">生脉饮</div>
+    <div class="sidebar-item" data-index="4">保元汤</div>
+    <div class="sidebar-item" data-index="5"></div>
+    <div class="sidebar-item" data-index="6"></div>
+    <div class="sidebar-item" data-index="7"></div>
+    <div class="sidebar-item" data-index="8"></div>
+    <div class="sidebar-item" data-index="9"></div>
+    <div class="sidebar-item" data-index="10"></div>
+    <div class="sidebar-item" data-index="11"></div>
+    <div class="sidebar-item" data-index="12"></div>
+    <div class="sidebar-item" data-index="13"></div>
+    <div class="sidebar-item" data-index="14"></div>
+    <div class="sidebar-item" data-index="15"></div>
+    <div class="sidebar-item" data-index="16"></div>
+    <div class="sidebar-item" data-index="17"></div>
+    <div class="sidebar-item" data-index="18"></div>
   </div>
 
   <div class="content">
@@ -178,30 +179,25 @@
 <script>
   // ===== 篇目数据：original 原文 / translation 译文 / analysis 简析；留空则显示待录入 =====
   const list = [
-    {
-      title: "伤寒杂病论 原序",
-      original: "余每览越人入虢之诊，望齐侯之色，未尝不慨然叹其才秀也。怪当今居世之士，曾不留神医药，精究方术，上以疗君亲之疾，下以救贫贱之厄，中以保身长全，以养其生。",
-      translation: "我每次读到扁鹊进入虢国诊治、望齐侯之色的故事，没有不赞叹他医术高超的。奇怪的是，当今世上的士人，却不重视医药，不精研方术，对上不能治疗君亲之病，对下不能救贫贱之困，对中不能保全自身生命。",
-      analysis: "此序为《伤寒论》开篇，张仲景借扁鹊事迹，感慨当时士人轻视医药、不重养生，强调医学乃济世救人之术。"
-    },
-    { title: "订正仲景全书伤寒论注" },
-    { title: "辨太阳病脉证并治上篇" },
-    { title: "辨太阳病脉证并治中篇" },
-    { title: "辨太阳病脉证并治下篇" },
-    { title: "辨阳明病脉证并治全篇" },
-    { title: "辨少阳病脉证并治全篇" },
-    { title: "辨太阴病脉证并治全篇" },
-    { title: "辨少阴病脉证并治全篇" },
-    { title: "辨厥阴病脉证并治全篇" },
-    { title: "辨合病并病脉证并治篇" },
-    { title: "辨差后劳复食复阴阳易病脉证并治篇" },
-    { title: "辨坏病脉证并治篇" },
-    { title: "辨温病脉证并治篇" },
-    { title: "辨痉湿暍病脉证并治篇" },
-    { title: "辨霍乱病脉证并治篇" },
-    { title: "辨可汗病脉证篇" },
-    { title: "辨不可汗病脉证篇" },
-    { title: "辨可吐病脉证篇" }
+    { title: "名医方论",original: "古医方得人乃传，非人勿言。故扁鹊，仓公皆称禁方不轻授人，诚重之也。后汉张机着『伤寒杂病论』，始立众方，公之天下。故建安以前，苦于无方；元丰而后，虽有局方，漫无指归，不可为法。今博集『金匮』，『千金』，『外台』诸书，及王好古，李杲，刘完素，朱震亨，张从政，薛己诸方之佳者，采录成编。然方论始于成无己，近代则有吴琨，李中梓，柯琴，汪昂诸家。于医方虽各有发明，但其间或有择焉未精，语焉未详者，复推其立方之意，综其简要，删繁补阙，归于明显，名之曰：删补名医方论，以昭示来兹云。", translation: "",analysis: "" },
+    { title: "独参汤",original: "治元气大虚，昏厥，脉微欲绝。及妇人崩产，脱血，血晕。<p>人参　分两随人，随证须上拣者，浓煎顿服，待元气渐回，随证加减。</P>", translation: "【集注】柯琴曰：一人而系一世之安危者，必重其权而专任之；一物而系一人之死生者，当大其服而独用之。故先启于气几息，血将脱之证，独用人参二两，浓煎顿服，能挽回性命于瞬息之间，非他物所可代也。世之用者，恐或补住邪气，姑稍稍以试之，或加消耗之味以监制之，其权不重，力不专，人何赖以得生乎？如古方霹雳散，大补丸，皆用一物之长而取效最捷，于独参汤何疑耶!",analysis: "【按】苦病兼别因，则又当随机应变，于独参汤中或加热，附补陽而回厥逆，或加生地凉陰而止吐衄，或加黄耆固表之汗，或加当归救血之脱，或加姜汁以除呕吐，或加童便以止陰烦，或加茯苓令水化津生治消渴泄泻，或加黄连折火逆冲上治噤口毒痢。是乃相得相须以有成，何害其为独哉？如薛己治中风，加人参两许于三生饮中，以驾驭其邪，此真善用独参者矣" },
+    { title: "参附汤",original: "治陰陽气血暴脱等证。人参　附子（制）,水煎服。", translation: "先身而生，谓之先天；后身而生，谓之后天。先天之气在肾，是父母之所赋；后天之气在脾，是水谷之所化。先天之气为气之体，体主动，故子在胞中，赖母息以养生气，则神藏而机静。后天之气为气之用，用主动，故育形之后，资水谷以奉生身，则神发而运动。天人合德，二气互用，故后天之气得先天之气，则生生而不息；先天之气得后天之气，始化化而不穷也。若夫起居不慎则伤肾，肾伤则先天气虚矣。饮食不洁而伤脾，脾伤则后天气虚矣。补后天之气无如人参，补先天之气无如附子，此参附汤之所由立也。二脏虚之微甚，参附量为君主，二药相须，用之得当，则能瞬息化气于乌有之乡，顷刻生陽于命门之内，方之最神捷者也。若表虚自汗，以附子易黄耆，名人参黄耆汤，补气兼止汗。失血陰亡，以附子易生地，名人参生地黄汤，固气兼救陰。寒湿厥汗，以人参易白术，名术附汤，除湿兼温里。",analysis: "易虚厥汗，以人参易黄耆，名耆附汤，补陽兼固表。此皆参附汤之转换变化法也，医者扩而充之，不能尽述其妙。" },
+    { title: "生脉饮",original: "治热伤元气，气短倦怠，口渴出汗人参　麦门冬　五味子水煎服。", translation: "经云：大气积于胸中，则肺主之。夫暑热伤肺，肺伤则气亦伤矣。故气短，倦怠而喘咳也。肺主皮毛，肺伤则失其卫护，故汗出也。热伤元气，气伤则不能生津，故口渴也。是方君人参以补气，即所以补肺。臣麦冬以清气，即所以清肺。佐五味以敛气，即所以敛肺。",analysis: "吴琨云：一补，一清，一敛，养气之道备矣。名曰生脉，以脉得气则充，失气则弱。李杲谓：月服生脉饮，加黄耆，甘草，名生脉保元汤，令人气力涌出；更加当归白芍，名人参饮子，治气虚喘咳，吐血衄血，亦虚火可补之例也。" },
+    { title: "保元汤",original: "治男妇气虚之总方也。婴儿惊怯，痘家虚者，最宜。<p>黄耆三钱　人参二钱　甘草一钱　肉桂春夏二三分　秋冬六七分，右四味，水煎服。</P>", translation: "【集注】柯琴曰：昔东垣以此三味能泻火，补金，培土，为除烦热之圣药，镇小儿之惊，效如桴骨。魏桂岩得之，以治痘家陽虚顶陷，血虚浆清，皮薄发痒，难灌难敛者，始终用之。以为血脱须补气，陽生则陰长，有起死回生之功，故名之为保元也。又稍佐肉桂，分四时之气而增损之，谓桂能治血以推动其毒，扶陽益气以充达周身。血内泣，引之出表，则气从内托；血外散，引之归根，则气从外护。参，耆非桂引导，不能独树其功。桂不得甘草和平气血，亦不能绪其条理，要非寡闻浅见者能窥其万一也。四君中不用白术，避其燥；不用茯苓，恐其渗也。用桂而不用四物者，以芎之辛散，归之湿润，芍之酸寒，地黄之泥滞故耳。如宜升则加升柴，宜燥加苓术，宜润加当归，宜利气加陈皮，宜收加芍。宜散加芎。又表实去耆，里实去参，中满忌甘，内热除桂，斯又当理会矣。",analysis: "【按】元气者，太虚之气也，人得之则藏乎肾，为先天之气，即所谓生气之原，肾间动气者是也。生化于脾，为后天之气，即所谓水谷入胃，其精气行于脉中之营养，其悍气行于脉外之卫气者是也。若夫合先后而言，即大气之积于胸中，司呼吸，通内外，周流一身，顷刻无间之宗气者是也。总之，诸气随所在而得名，实一元气也。保元者，保守此元气之谓。是方用黄耆保在外一切之气，甘草保在中一切之气，人参保上，中，下，内，外一切之气，诸气治而元气足矣。然此汤补后天水谷之气则有余，生先天命门之气则不足，加肉桂以鼓肾间动气，斯为备耳。" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" }
   ];
 
   // ===== 跨网页导航：上一部 / 下一部 跳转到相邻 html 文件 =====

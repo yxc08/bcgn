@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>四诊心法要诀</title>
+<title>种痘心法要旨</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:"SimSun","宋体","STSong",serif; }
   body {
@@ -116,7 +116,7 @@
 <!-- 顶部栏 -->
 <div class="top-bar">
   <div class="top-left">
-    <div class="book-title">四诊心法要诀</div>
+    <div class="book-title">种痘心法要旨</div>
     <button class="icon-btn" id="btn-menu" title="目录">☰</button>
     <button class="top-btn" id="btn-prev-top">＜ 上一部</button>
     <button class="top-btn" id="btn-next-top">下一部 ＞</button>
@@ -138,31 +138,32 @@
 <div class="mask" id="mask"></div>
 <div class="main">
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-title">四诊心法要诀</div>
-    <div class="sidebar-item" data-index="1">订正仲景全书伤寒论注</div>
-    <div class="sidebar-item" data-index="2">辨太阳病脉证并治上篇</div>
-    <div class="sidebar-item" data-index="3">辨太阳病脉证并治中篇</div>
-    <div class="sidebar-item" data-index="4">辨太阳病脉证并治下篇</div>
-    <div class="sidebar-item" data-index="5">辨阳明病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="6">辨少阳病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="7">辨太阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="8">辨少阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="9">辨厥阴病脉证并治全篇</div>
-    <div class="sidebar-item" data-index="10">辨合病并病脉证并治篇</div>
-    <div class="sidebar-item" data-index="11">辨差后劳复食复阴阳易病脉证并治篇</div>
-    <div class="sidebar-item" data-index="12">辨坏病脉证并治篇</div>
-    <div class="sidebar-item" data-index="13">辨温病脉证并治篇</div>
-    <div class="sidebar-item" data-index="14">辨痉湿暍病脉证并治篇</div>
-    <div class="sidebar-item" data-index="15">辨霍乱病脉证并治篇</div>
-    <div class="sidebar-item" data-index="16">辨可汗病脉证篇</div>
-    <div class="sidebar-item" data-index="17">辨不可汗病脉证篇</div>
-    <div class="sidebar-item" data-index="18">辨可吐病脉证篇</div>
+   <div class="sidebar-title">种痘心法要旨</div>
+    <div class="sidebar-item" data-index="0">种痘心法要旨</div>
+    <div class="sidebar-item" data-index="1"></div>
+    <div class="sidebar-item" data-index="2"></div>
+    <div class="sidebar-item" data-index="3"></div>
+    <div class="sidebar-item" data-index="4"></div>
+    <div class="sidebar-item" data-index="5"></div>
+    <div class="sidebar-item" data-index="6"></div>
+    <div class="sidebar-item" data-index="7"></div>
+    <div class="sidebar-item" data-index="8"></div>
+    <div class="sidebar-item" data-index="9"></div>
+    <div class="sidebar-item" data-index="10"></div>
+    <div class="sidebar-item" data-index="11"></div>
+    <div class="sidebar-item" data-index="12"></div>
+    <div class="sidebar-item" data-index="13"></div>
+    <div class="sidebar-item" data-index="14"></div>
+    <div class="sidebar-item" data-index="15"></div>
+    <div class="sidebar-item" data-index="16"></div>
+    <div class="sidebar-item" data-index="17"></div>
+    <div class="sidebar-item" data-index="18"></div>
   </div>
 
   <div class="content">
     <div class="content-header">
-      <div class="section">四诊心法要诀</div>
-      <div class="title" id="content-title">四诊心法要诀</div>
+      <div class="section">种痘心法要旨</div>
+      <div class="title" id="content-title">种痘心法要旨</div>
     </div>
 
     <div class="content-body" id="content-body"></div>
@@ -178,37 +179,27 @@
 <script>
   // ===== 篇目数据：original 原文 / translation 译文 / analysis 简析；留空则显示待录入 =====
   const list = [
-    {
-      title: "伤寒杂病论 原序",
-      original: "余每览越人入虢之诊，望齐侯之色，未尝不慨然叹其才秀也。怪当今居世之士，曾不留神医药，精究方术，上以疗君亲之疾，下以救贫贱之厄，中以保身长全，以养其生。",
-      translation: "我每次读到扁鹊进入虢国诊治、望齐侯之色的故事，没有不赞叹他医术高超的。奇怪的是，当今世上的士人，却不重视医药，不精研方术，对上不能治疗君亲之病，对下不能救贫贱之困，对中不能保全自身生命。",
-      analysis: "此序为《伤寒论》开篇，张仲景借扁鹊事迹，感慨当时士人轻视医药、不重养生，强调医学乃济世救人之术。"
-    },
-    { title: "订正仲景全书伤寒论注" },
-    { title: "辨太阳病脉证并治上篇" },
-    { title: "辨太阳病脉证并治中篇" },
-    { title: "辨太阳病脉证并治下篇" },
-    { title: "辨阳明病脉证并治全篇" },
-    { title: "辨少阳病脉证并治全篇" },
-    { title: "辨太阴病脉证并治全篇" },
-    { title: "辨少阴病脉证并治全篇" },
-    { title: "辨厥阴病脉证并治全篇" },
-    { title: "辨合病并病脉证并治篇" },
-    { title: "辨差后劳复食复阴阳易病脉证并治篇" },
-    { title: "辨坏病脉证并治篇" },
-    { title: "辨温病脉证并治篇" },
-    { title: "辨痉湿暍病脉证并治篇" },
-    { title: "辨霍乱病脉证并治篇" },
-    { title: "辨可汗病脉证篇" },
-    { title: "辨不可汗病脉证篇" },
-    { title: "辨可吐病脉证篇" }
+    { title: "种痘心法要旨",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" },
+    { title: "",original: "", translation: "",analysis: "" }
   ];
 
   // ===== 跨网页导航：上一部 / 下一部 跳转到相邻 html 文件 =====
   const booksNav = [
-    { name: "删补名医方论", page: "删补名医方论03.html" },
-    { name: "四诊心法", page: "四诊心法04.html" },
-    { name: "运气要诀", page: "运气要诀05.html" }
+    { name: "痘疹心法要诀", page: "10痘疹心法要诀.html" },
+    { name: "种痘心法要旨", page: "11种痘心法要旨.html" },
+    { name: "外科心法要诀", page: "12外科心法要诀.html" }
   ];
 
   let currentIndex = 0;
