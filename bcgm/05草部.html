@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本草纲目 · 草部</title>
+<meta name="description" content="本草纲目,中医宝典,医宗金鉴,中医书籍,中医名著,中医古籍,中医书籍大全" />
+<meta name="keywords" content="医典包括中医书籍有:中药大全,方剂大全,中医经论,中医伤寒,中医金匮,中医诊治,中医本草,中医方言,中医内科,中医外科,中医儿科,中医妇科,中医五官,中医针灸,中医医论" />
+<link rel="shortcut icon" href="images/favicon.ico">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"SimSun","宋体","STSong",serif; }
+  body { background:#f4f1e8; color:#4a3728; line-height:1.8; min-height:100vh; }
+  body.dark-mode { background:#2d241a; color:#e8d5b8; }
+  .wrap { max-width:1400px; margin:0 auto; position:relative; }
+  .wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,#8b4513 33%,#d2691e 33%,#d2691e 66%,#8b4513 66%); }
+
+  .sidebar { width:260px; background:linear-gradient(180deg,#e8d5b8,#f4f1e8); border-right:3px double #8b4513;
+    padding:20px 15px; position:fixed; left:0; top:20px; bottom:20px; overflow-y:auto; z-index:1000;
+    transition: left 0.3s ease;
+  }
+  body.dark-mode .sidebar { background:linear-gradient(180deg,#4a3728,#2d241a); }
+  .sidebar h2 { font-size:22px; color:#8b4513; text-align:center; padding-bottom:12px; margin-bottom:15px;
+    border-bottom:2px solid #8b4513; letter-spacing:3px; }
+  body.dark-mode .sidebar h2 { color:#e8d5b8; }
+  .med-item { padding:10px 12px; margin-bottom:6px; background:linear-gradient(90deg,#d2691e,#8b4513);
+    color:#fff; border-radius:5px; cursor:pointer; font-size:15px; }
+  .med-item:hover { filter:brightness(1.1); }
+  .med-item.active { outline:2px solid #4a3728; }
+  .med-empty { padding:14px 12px; text-align:center; color:#a07040; font-size:14px; }
+
+  .main { margin-left:260px; padding:30px 40px; min-height:100vh; }
+  .top-bar { position:sticky; top:0; z-index:900; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin:0 -40px 20px; padding:12px 40px; background:#f4f1e8; box-shadow:0 2px 6px rgba(74,55,40,.15); }
+  body.dark-mode .top-bar { background:#2d241a; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+  .menu-btn { width:35px;height:35px;border:none;border-radius:50%;background:linear-gradient(90deg,#8b4513,#d2691e);color:#fff;cursor:pointer;font-size:18px; }
+  .pagination { display:flex; gap:10px; align-items:center; }
+  .pagination button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .pagination button:hover { filter:brightness(1.1); }
+  .pagination button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager { display:flex; gap:12px; align-items:center; justify-content:center; margin:22px 0 10px; flex-wrap:wrap; }
+  .med-pager button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .med-pager button:hover { filter:brightness(1.1); }
+  .med-pager button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager .med-pos { font-size:14px; color:#a07040; }
+  body.dark-mode .med-pager .med-pos { color:#c9a87a; }
+  .med-pager.hidden { display:none; }
+  .tools { display:flex; gap:10px; align-items:center; }
+  .tools button { width:35px; height:35px; border:none; border-radius:50%; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+  .theme-toggle { padding:5px 15px; border:none; border-radius:20px; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+
+  .volume-info { text-align:center; padding:15px; margin-bottom:20px; background:linear-gradient(90deg,rgba(139,69,19,.1),transparent); border-radius:5px; }
+  .volume-info strong { color:#8b4513; font-size:18px; letter-spacing:2px; }
+  body.dark-mode .volume-info strong { color:#e8d5b8; }
+
+  .card { background:linear-gradient(180deg,#fff,#f9f5eb); border:1px solid #d4c4a8; border-radius:8px; padding:30px; position:relative; }
+  body.dark-mode .card { background:linear-gradient(180deg,#3d3022,#2d241a); border-color:#5a4433; }
+  .card-header { text-align:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #d4c4a8; }
+  .card-title { font-size:1.6em; color:#8b4513; letter-spacing:2px; }
+  body.dark-mode .card-title { color:#e8d5b8; }
+  .card-sub { font-size:0.85em; color:#a07040; margin-top:6px; }
+
+  .section { margin:18px 0; }
+  .section-title { font-size:1.05em; color:#8b4513; font-weight:bold; padding-left:10px; border-left:3px solid #d2691e; margin-bottom:5px; }
+  body.dark-mode .section-title { color:#e8d5b8; }
+  .section-text { font-size:1em; line-height:1.9; padding:6px 10px; border-radius:4px; white-space:pre-wrap; outline:none; word-break:normal; }
+  .section-text:focus { background:rgba(139,69,19,.1); }
+
+  .back-home { display:inline-block; margin-bottom:15px; color:#8b4513; cursor:pointer; text-decoration:underline; font-size:14px; }
+
+  .mask { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; display:none; }
+  .mask.show { display:block; }
+
+  @media (max-width:768px){
+    .sidebar { left:-260px; }
+    .sidebar.open { left:0; }
+    .main { margin-left:0; padding:20px 16px; }
+    .top-bar { margin:0 -16px 20px; padding:12px 16px; }
+    .card { padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+<audio id="bgMusic" autoplay loop muted>
+  <source src="mp3/你走以后我才敢说爱你 - 山野葫芦.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrap">
+  <div class="sidebar" id="sidebar">
+    <h2>本草纲目</h2>
+    <div id="med-list"></div>
+  </div>
+  <div class="mask" id="mask" onclick="toggleSidebar()"></div>
+  <div class="main">
+    <div class="top-bar">
+      <div class="pagination">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <button onclick="prevDept()" id="prev-btn">❮ 上一部</button>
+        <button onclick="nextDept()" id="next-btn">下一部 ❯</button>
+      </div>
+      <div class="tools">
+        <button onclick="adjustFont(-1)">A-</button>
+        <button onclick="adjustFont(1)">A+</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙古籍模式</button>
+        <button id="btn-music" onclick="toggleMusic()" title="背景音乐">🎵</button>
+      </div>
+    </div>
+    <a class="back-home" href="../index.html">‹ 返回目录</a>
+    <div class="volume-info" id="volume-info"><strong>草部</strong></div>
+    <div id="content-area"> </div>
+    <div class="med-pager" id="med-pager">
+      <button onclick="prevMed()" id="prev-med-btn">❮ 上一味</button>
+      <span class="med-pos" id="med-pos"></span>
+      <button onclick="nextMed()" id="next-med-btn">下一味 ❯</button>
+    </div>
+	  <div class="disclaimer">
+      <strong>⚠️ 免责与版权声明</strong>
+      <p>本网页仅为明代古籍《本草纲目》的文化阅览与文献研究整理，不构成任何医疗诊断或用药指导，不能作为抓药、内服、外用的参考依据。书中部分矿物药、虫类药有毒，部分动物药材涉及国家保护野生动物，受《野生动物保护法》等法规管制，须凭执业医师处方、通过合法正规渠道使用，严禁私自采集、猎捕、交易；人部条目为历史文献存档，现代已禁用，切勿自行内服。古籍内容受时代局限，不代表现代医学观点，由此自行用药产生的后果由使用者自负。原著《本草纲目》为公版古籍；本网页排版与数字化整理文本受著</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================= 16 部目录 =================
+const books = [
+  { "name": "水部", "department": "水", "page": "01水部.html", "medicines": [] },
+  { "name": "火部", "department": "火", "page": "02火部.html", "medicines": [] },
+  { "name": "土部", "department": "土", "page": "03土部.html", "medicines": [] },
+  { "name": "金石部", "department": "金石", "page": "04金石部.html", "medicines": [] },
+  { "name": "草部", "department": "草", "page": "05草部.html", "medicines": [{
+        "name": "甘草",
+        "content": {
+          "释名": "亦名蜜甘、蜜草、美草、草、灵通、国老。",
+          "气味": "甘，平，无毒。寇宗奭曰︰生则微凉，味不佳；炙则温",
+		  "弘景曰":"此草最为众药之主，经方少有不用者，犹如香中有沉香也。国老即帝师之称，虽非君而为君所宗，是以能安和草石而解诸毒也",
+		  "甄权曰":"诸药中甘草为君，治七十二种乳石毒，解一千二百般草木毒，调和众药有功故有国老之号",
+		  "王好古曰":"气薄味浓，升而浮，阳也。入足太阴厥阴经。",
+		  "徐之才曰":"术、苦参、干漆为之使，恶远志，反大戟、芫花、甘遂、海藻",
+		  "时珍曰":"通入手足十二经，甘草与藻、戟、遂、芫四物相反，而胡洽居士治痰，以十枣汤加甘草、大黄，乃是痰在膈上，欲令通泄，以拔去病根也。东垣李杲治项下结核，消肿溃坚东加海藻。丹溪朱震亨治劳瘵，莲心饮用芫花。二方俱有甘草，皆本胡居士之意也。故陶弘景言古方亦有相恶相反者，乃不为害。非妙达精微者，不知此理。甘草外赤中黄，色兼坤离；味浓气薄，资全土德。协和群品，有元老之功；普治百邪，得王道之化。赞帝力而人不知，敛神功而己不与，可谓药中之良相也。然中满、呕吐、酒客之病，不喜其甘；而大戟、芫花、甘遂、海藻，与之相反。是亦迂缓不可以救昏昧，而君子尝见嫉于宵人之意欤？",
+		  "主治": "五脏六腑寒热邪气，坚筋骨，长肌肉，倍气力，金疮，解毒。久服轻身延年（《本经》。，音时勇切，肿也）。温中下气，烦满短气，伤脏咳嗽，止渴，通经脉，利血气，解百药毒，为九土之精，安和七十二种石，一千二百种草（《别录》）。主腹中冷痛，治惊痫，除腹胀满，补益五脏，养肾气内伤，令人阴不痿，主妇人血沥腰痛，凡虚而多热者，加用之（甄权）。安魂定魄，补五劳七伤，一切虚损，惊悸烦闷健忘，通九窍，利百脉，益精养气，壮筋骨（大明）。生用泻火热；熟用散表寒，去咽痛，除邪热，缓正气，养阴血，补脾胃，润肺（李杲）。吐肺痿之脓血，消五发之疮疽（好古）。解小儿胎毒惊痫，降火止痛（时珍）。",
+          "稍": "【主治】生用治胸中积热，去茎中痛，加酒煮玄胡索、苦楝子尤妙（元素）。",
+			"头": "生用能行足厥阴、阳明二经污浊之血，消肿导毒（震亨）。主痈肿，宜入吐药（时珍）。",
+			"发明": "震亨曰︰甘草味甘，大缓诸火，黄中通理，厚德载物之君子也。欲达下焦，须用稍子。杲曰︰甘草气薄味浓，可升可降，阴中阳也。阳不足者，补之以甘。甘温能除大热，故生用则气平，补脾胃不足而大泻心火；炙之则气温，补三焦元气而散表寒，除邪热，去咽痛，缓正气，养阴血。凡心火乘脾，腹中急痛，腹皮急缩者，宜倍用之。其性能缓急，而又协和诸药，使之不争。故热药得之缓其热；寒药得之缓其寒；寒热相杂者用之得其平。好古曰︰五味之用，苦泄辛散，酸收咸敛，甘上行而发，而本草言甘草下气何也？盖甘味主中，有升降浮沉，可上可下，可外可内，有和有缓，有补有泄，居中之道尽矣。张仲景附子理中汤用甘草，恐其僭上也；调胃承气汤用甘草，恐其速下也，皆缓之之意。小柴胡汤有柴胡、黄芩之寒，人参、半夏之温，而用甘草者，则有调和之意。建中汤用甘草，以补中而缓脾急也；凤髓丹用甘草，以缓肾急而生元气也，乃甘补之意。又曰︰甘者令人中满；中满者勿食甘，甘缓而壅气，非中满所宜也。凡不满而用炙甘草为之补；若中满而用生甘草为之泻，能引诸药直至满所，甘味入脾，归其所喜，此升降、浮沉之理也。《经》云︰以甘补之，以甘泻之，以甘缓之，是矣。",
+			
+			
+			
+			
+          "附方": "伤寒心悸:脉结代者︰甘草二两。水三升，煮一半，服七合。日一服。（《伤寒类要》）\n伤寒咽痛︰少阴证，甘草汤主之。用甘草二两（蜜水炙），水二升，煮一升半，服五合，日二服。（张仲景《伤寒论》）\n肺热喉痛有痰热者:甘草（炒）二两，桔梗（米泔浸一夜）一两。每服五钱，水一钟半，入阿胶半片，煎服。（钱乙《直诀》）/n肺痿多涎︰肺痿吐涎沫，头眩，小便数而不咳者，肺中冷也，甘草干姜汤温之。甘草（炙）四两，干姜（炮）二两。水三升，煮一升五合，分服。（张仲景《金匮要略》）\n肺痿久嗽涕唾多，骨节烦闷，寒热。以甘草三两（炙），捣为末。每日取小便三合，调甘草末一钱，服之。（《广利方》）\n小儿热嗽︰甘草二两，猪胆汁浸五宿，炙，研末，蜜丸绿豆大。食后薄荷汤下十丸。名凉膈丸。（《圣惠方》）",
+         
+          "03": "附方2"
+        
+		
+		
+		
+		
+		}
+      },
+	  {
+        "name": "人参",
+        "content": {
+          "释名": "《说文》：人以为主也。《尔雅》：三苗曰人。\n《别录》曰：人参，生上党吕梁山及辽东，三桠五叶，四月采根。",
+          "气味": "甘，微温，无毒。",
+          "主治": "补五脏，安精神，定魂魄，止惊悸，除邪气，开心益智。\n久服轻身延年。",
+          "发明": "李时珍曰：人参甘温，补阳益肺，为补气之要药。\n凡气虚欲脱、脉微气弱者，可用之；然肺火旺盛、阴虚火旺者不宜。",
+          "附方": "《千金方》：人参三两，茯苓三两，白术三两，甘草三两。\n上四味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。\n\n人参汤：治脾胃虚弱。\n人参一两，白术一两，甘草一两，大枣四枚，水三升，煮取一升，温服。",
+          "01": "#",
+          "03": "# ",
+			"04": "# "
+        }
+      },
+      {
+        "name": "茯苓",
+        "content": {
+          "释名": "《说文》：茯，香也。\n《别录》曰：茯苓生泰山山谷，松下埋根，岁久结成，大者如碗，外皮黑而内白。",
+          "气味": "甘，平，无毒。",
+          "主治": "主胸痹心痛，益气力，利小便，止消渴，安心神。\n久服轻身耐老。",
+          "发明": "李时珍曰：茯苓生于松根，感松之余气，甘淡渗利，健脾宁心。\n白茯苓偏于补脾利湿，赤茯苓偏于利湿热。",
+          "附方": "《千金方》：茯苓三两，桂心三两，白术三两。\n上三味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。\n\n四君子汤：茯苓、人参、白术、甘草等分，水煎服，治脾胃气虚。"
+        }
+      },
+      {
+        "name": "黄芪",
+        "content": {
+          "释名": "《本草纲目》：黄芪本名黄耆，耆，长也，为补药之长，故名。\n生蜀地汉中，十一月采根，皮黄肉白。",
+          "气味": "甘，微温，无毒。",
+          "主治": "主痈疽久败疮，排脓止痛，大风癞疾，五痔鼠瘘，补虚，小儿百病。\n益卫气，固表止汗，利水消肿。",
+          "发明": "李时珍曰：黄芪甘温，补肺健脾，实卫气，为补气升阳之要药。\n表实邪盛、气滞湿阻、食积内停者不宜早用。",
+          "附方": "《金匮要略》：黄芪五两，芍药三两，桂枝三两，生姜三两，大枣十二枚。\n水六升，煮取二升，分温三服。\n\n玉屏风散：黄芪二两，白术二两，防风一两，研末，每服三钱，水煎服，固表止汗。"
+        }
+      },
+      {
+        "name": "白术",
+        "content": {
+          "释名": "《别录》曰：白术生郑山、汉中，二月、八月采根，抱茎而生，根大块如拳。",
+          "气味": "苦，温，无毒。",
+          "主治": "主风寒湿痹，死肌，痉疸，止汗，除热，消食。\n健脾益气，燥湿利水，止汗安胎。",
+          "发明": "李时珍曰：白术苦温燥湿，甘温补脾，为健脾燥湿之要药。\n脾阴虚、津液亏耗者，当配伍养阴之品，不可独用。",
+          "附方": "《千金方》：白术四两，茯苓三两，桂心二两。\n上三味，捣筛为散，每服五钱，水一中盏，煎至六分，去滓温服。\n\n白术汤：治脾虚泄泻。\n白术、茯苓、陈皮、生姜，水煎服。"
+        }
+      },
+      {
+        "name": "山药",
+        "content": {
+          "释名": "《本草纲目》：山药本名薯蓣，因避唐代宗讳改薯药，又避宋英宗讳改山药。\n生嵩山山谷，春生苗，蔓缘篱壁，根白而长。",
+          "气味": "甘，平，无毒。",
+          "主治": "主伤中，补虚羸，除寒热邪气，补中益气力，长肌肉。\n久服耳目聪明，益肾气，健脾胃。",
+          "发明": "李时珍曰：山药甘平，脾肺肾三脏同补，不燥不腻，为清补之品。\n然湿盛中满、大便溏滑者不宜多食。",
+          "附方": "《经验方》：山药半斤（焙），莲子肉二两，芡实二两。\n上三味为末，每服三钱，米汤调下。\n\n山药粥：山药捣碎，和米煮粥，早晚食之，健脾养胃。"
+        }
+      },
+      {
+        "name": "黄连",
+        "content": {
+          "释名": "《别录》曰：黄连生巫阳川谷，四月采根，根连珠而色黄，故名。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主热气目痛，眦伤泪出，明目，肠澼腹痛下痢，妇人阴中肿痛。\n清热燥湿，泻火解毒。",
+          "发明": "李时珍曰：黄连大苦大寒，泻心火，清湿热，治痢疾口疮之要药。\n苦寒伤胃，脾胃虚寒者忌用。",
+          "附方": "《肘后方》：黄连三两，黄芩二两，黄柏二两，栀子十四枚。\n水六升，煮取二升，分二服，泻火解毒。\n\n香连丸：黄连、木香，研末为丸，米饮送下，治赤白痢疾。"
+        }
+      },
+      {
+        "name": "黄芩",
+        "content": {
+          "释名": "《本草纲目》：黄芩以色黄得名，一月采根，中空者为枯芩，实者为子芩。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主诸热黄疸，肠澼泄痢，逐水，下血闭，恶疮疽蚀火疡。\n清热燥湿，泻火解毒，止血安胎。",
+          "发明": "李时珍曰：黄芩苦寒，清肺与大肠之火，枯芩偏于清上焦，子芩偏于清下焦。\n脾胃虚寒、无湿热者不宜。",
+          "附方": "《金匮要略》：黄芩三两，芍药二两，甘草二两，大枣十二枚。\n水五升，煮取二升，分三服。\n\n黄芩汤：治太阳少阳合病下利。"
+        }
+      },
+      {
+        "name": "柴胡",
+        "content": {
+          "释名": "《别录》曰：柴胡生洪农山谷，二月、八月采根，叶似韭而稍阔，根红紫色。",
+          "气味": "苦，平，无毒。",
+          "主治": "主心腹肠胃中结气，饮食积聚，寒热邪气，推陈致新。\n疏肝解郁，升举阳气，和解表里。",
+          "发明": "李时珍曰：柴胡苦平，主少阳胆经，为和解表里、疏肝升阳之要药。\n肝阳上亢、阴虚火旺者慎用。",
+          "附方": "《伤寒论》：柴胡四两，黄芩三两，人参三两，半夏半升，甘草三两，生姜三两，大枣十二枚。\n水一斗二升，煮取六升，去滓再煎，温服一升，日三服。\n\n小柴胡汤：和解少阳，治往来寒热。"
+        }
+      },
+      {
+        "name": "半夏",
+        "content": {
+          "释名": "《礼记·月令》：五月半夏生，盖当夏之半，故名。\n生槐里川谷，五月采根，圆如半夏，须炮制用。",
+          "气味": "辛，温，有毒。",
+          "主治": "主伤寒寒热，心下坚，下气，喉咽肿痛，头眩胸胀，咳逆肠鸣，止汗。\n燥湿化痰，降逆止呕，消痞散结。",
+          "发明": "李时珍曰：半夏辛温有毒，燥湿化痰，和胃止呕，然内服须姜制，以制其毒。\n一切血证及阴虚燥咳者忌用。",
+          "附方": "《伤寒论》：半夏半升（洗），黄芩三两，干姜三两，人参三两，甘草三两，黄连一两，大枣十二枚。\n水一斗，煮取六升，去滓再煎，温服一升。\n\n半夏泻心汤：治心下痞满，呕而肠鸣。"
+        }
+      },
+      {
+        "name": "桔梗",
+        "content": {
+          "释名": "《本草纲目》：桔梗根结实而梗直，故名。\n生嵩高山谷，二月、八月采根，色白，叶似杏叶。",
+          "气味": "辛，微温，无毒。",
+          "主治": "主胸胁痛如刀刺，腹满肠鸣幽幽，惊恐悸气。\n宣肺利咽，祛痰排脓，载药上行。",
+          "发明": "李时珍曰：桔梗苦辛，开宣肺气，为舟楫之剂，能引诸药上达胸膈肺经。\n阴虚久嗽、气逆咳血者慎用。",
+          "附方": "《千金方》：桔梗三两，甘草二两。\n水三升，煮取一升，分二服，治咽痛失音。\n\n桔梗汤：清肺利咽，排脓解毒。"
+        }
+      },
+      {
+        "name": "防风",
+        "content": {
+          "释名": "《本草纲目》：防风御风寒，故名。\n生沙苑川泽，二月、十月采根，根黄棕色，叶似青蒿。",
+          "气味": "辛，温，无毒。",
+          "主治": "主大风头眩痛，恶风风邪，目盲无所见，风行周身，骨节痹痛。\n祛风解表，胜湿止痛，止痉。",
+          "发明": "李时珍曰：防风辛温，为治风通用之品，散风寒湿痹，又能疏肝脾。\n血虚发痉、阴虚火旺者不宜。",
+          "附方": "《本事方》：防风二两，黄芪二两，白术二两。\n研末，每服三钱，水煎服，固表祛风。\n\n玉屏风散：御风固表，治自汗易感风邪。"
+        }
+      },
+      {
+        "name": "薄荷",
+        "content": {
+          "释名": "《本草纲目》：薄荷俗称蕃荷，茎叶有特殊香气，八月采茎叶，阴干。",
+          "气味": "辛，凉，无毒。",
+          "主治": "主贼风伤寒，发汗，恶风气胀，霍乱，宿食不消，下气。\n疏散风热，清利头目，利咽透疹，疏肝行气。",
+          "发明": "李时珍曰：薄荷辛凉轻清，上行头目，散风热，利咽喉。\n体虚多汗者不宜多服。",
+          "附方": "《经验方》：薄荷、桑叶、菊花、桔梗各等分。\n水二盏，煎一盏，温服，治风热头痛咽痛。\n\n薄荷茶：薄荷叶少许，泡水温饮，清头目。"
+        }
+      },
+      {
+        "name": "紫苏",
+        "content": {
+          "释名": "《本草纲目》：紫苏以叶色紫得名，五月采叶，九月采子，茎亦入药。",
+          "气味": "辛，温，无毒。",
+          "主治": "主下气，杀谷，除饮食，辟口臭，去邪毒，辟恶气。\n解表散寒，行气和胃，解鱼蟹毒。",
+          "发明": "李时珍曰：紫苏辛温，入肺脾二经，发散风寒，理气宽中，兼解鱼蟹之毒。\n阴虚火旺、气虚多汗者慎服。",
+          "附方": "《金匮要略》：紫苏叶三两，生姜三两，大枣十二枚。\n水五升，煮取二升，分温三服。\n\n苏叶饮：苏叶、陈皮、生姜，水煎，治妊娠恶阻及食蟹中毒。"
+        }
+      },
+      {
+        "name": "麻黄",
+        "content": {
+          "释名": "《本草纲目》：麻黄一名龙沙，生晋地，立秋后采茎，根亦入药。",
+          "气味": "辛，温，无毒。",
+          "主治": "主中风伤寒头痛，温疟，发表出汗，去邪热气，止咳逆上气，除寒热，破癥坚积聚。\n发汗解表，宣肺平喘，利水消肿。",
+          "发明": "李时珍曰：麻黄辛温，发汗力猛，为解表第一要药；表虚自汗、阴虚盗汗者忌用。\n麻黄根则止汗，与茎性相反，不可混用。",
+          "附方": "《伤寒论》：麻黄三两（去节），桂枝二两，甘草一两，杏仁七十个。\n水九升，先煮麻黄减二升，去上沫，内诸药，煮取二升半，温服八合。\n\n麻黄汤：发汗解表，宣肺平喘。"
+        }
+      },
+      {
+        "name": "菊花",
+        "content": {
+          "释名": "《本草纲目》：菊一名节华，九月开花，黄者名黄菊，白者名白菊，陈者良。",
+          "气味": "苦，平，无毒。",
+          "主治": "主风头眩肿痛，目欲脱，泪出，皮肤死肌，恶风湿痹。\n久服利血气，轻身耐老。\n散风清热，平肝明目，清热解毒。",
+          "发明": "李时珍曰：菊花甘苦微寒，平肝明目，白菊偏于清肝益肺，黄菊偏于疏散风热。\n气虚胃寒、食少泄泻者少用。",
+          "附方": "《经验方》：菊花、枸杞、山茱萸、地黄，研末蜜丸，每服二钱，温水送下。\n\n菊花茶：白菊少许，泡水温饮，清头明目。"
+        }
+      },
+      {
+        "name": "连翘",
+        "content": {
+          "释名": "《本草纲目》：连翘一名连壳，生于太山山谷，八月采实，茎秆翘然，故名。",
+          "气味": "苦，平，无毒。",
+          "主治": "主寒热，鼠瘘瘰疬，痈肿恶疮，瘿瘤结热，蛊毒。\n清热解毒，消肿散结，疏散风热。",
+          "发明": "李时珍曰：连翘苦寒，清心火，解疮毒，为疮家圣药；与金银花相须，治风热外感及痈肿。\n脾胃虚寒、气虚脓清者不宜。",
+          "附方": "《温病条辨》：连翘、金银花、桔梗、薄荷、竹叶、甘草、荆芥穗、淡豆豉、牛蒡子。\n水煎服，辛凉透表，清热解毒。\n\n银翘散：治风温初起，发热咽痛。"
+        }
+      },
+      {
+        "name": "葛根",
+        "content": {
+          "释名": "《本草纲目》：葛又名鹿藿，生梵屋山川谷，五月掘根，入土深者佳，粉白可食。",
+          "气味": "甘，平，无毒。",
+          "主治": "主消渴，身大热，呕吐，诸痹，起阴气，解诸毒。\n解肌退热，生津止渴，透疹升阳止泻。",
+          "发明": "李时珍曰：葛根甘平，入脾胃经，能升发清阳，解肌表之热，生津止渴。\n夏日热病口渴者宜之，胃寒呕家慎用。",
+          "附方": "《伤寒论》：葛根四两，麻黄三两，桂枝二两，芍药二两，甘草二两，生姜三两，大枣十二枚。\n水一斗，先煮葛根、麻黄，去沫，内诸药，煮取三升，温服一升。\n\n葛根汤：解肌发汗，治项背强几几。"
+        }
+      },
+      {
+        "name": "板蓝根",
+        "content": {
+          "释名": "《本草纲目》：板蓝根即蓝之根，叶名大青叶，生中山川谷，冬采根，夏采叶。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主解诸毒，杀蛊蚑，疰鬼螫毒。\n清热解毒，凉血利咽，用于温毒发斑、咽喉肿痛。",
+          "发明": "李时珍曰：板蓝根苦寒，凉血解毒，时行热病、大头瘟疫多用之。\n体虚无实火热毒者不宜，脾胃虚寒者忌服。",
+          "附方": "《经验方》：板蓝根、连翘、金银花、甘草，水煎服。\n\n板蓝根饮：治温毒咽痛、发热。"
+        }
+      },
+      {
+        "name": "白芍",
+        "content": {
+          "释名": "《本草纲目》：芍药分赤白，白者色白入补，二月、八月采根，晒干用。",
+          "气味": "苦，平，无毒。",
+          "主治": "主邪气腹痛，除血痹，破坚积，寒热疝瘕，止痛，利小便，益气。\n养血调经，敛阴止汗，柔肝止痛，平抑肝阳。",
+          "发明": "李时珍曰：白芍苦酸微寒，养血柔肝，缓急止痛；与甘草相配，治腹中挛急痛。\n阳衰虚寒、不宜酸味者慎用。",
+          "附方": "《伤寒论》：芍药四两，甘草四两。\n水三升，煮取一升半，去滓，分温三服。\n\n芍药甘草汤：柔肝缓急，治脚挛急腹痛。"
+        }
+      },
+      {
+        "name": "当归",
+        "content": {
+          "释名": "《本草纲目》：当归一名乾归，生陇西川谷，二月、八月采根，肉厚气香，尾细者佳。",
+          "气味": "甘、辛，温，无毒。",
+          "主治": "主咳逆上气，温疟寒热，妇人漏下绝子，诸恶疮疡。补血活血，调经止痛，润肠通便。",
+          "发明": "李时珍曰：当归甘温润血，为妇科调经要药；头补血，尾活血，身和血。湿盛中满、大便溏泄者慎用。",
+          "附方": "《金匮要略》：当归三两，桂枝三两，芍药三两，细辛二两，通草二两，大枣二十五枚，甘草二两。水煎服，温经散寒。当归补血汤：当归、黄芪，水煎服，治血虚发热。"
+        }
+      },
+      {
+        "name": "川芎",
+        "content": {
+          "释名": "《本草纲目》：川芎一名香果，生武功川谷，八月采根，根节隆起如雀脑，香气辛烈。",
+          "气味": "辛，温，无毒。",
+          "主治": "主中风入脑头痛，寒痹筋挛缓急，妇人血闭无子。活血行气，祛风止痛，为血中气药。",
+          "发明": "李时珍曰：川芎辛温香窜，上行头目，下调经水，中开郁结，头痛要药。阴虚火旺、上盛下虚者忌服。",
+          "附方": "《经验方》：川芎、白芷、羌活、防风，水煎服，治头风头痛。川芎茶调散：川芎配荆芥、薄荷等，清茶调下，疏风止痛。"
+        }
+      },
+      {
+        "name": "地黄",
+        "content": {
+          "释名": "《本草纲目》：地黄一名地髓，生咸阳川泽，二月、八月采根，鲜者为生地，蒸晒为熟地。",
+          "气味": "鲜、生地：甘，寒；熟地：甘，微温，无毒。",
+          "主治": "生地清热凉血，养阴生津；熟地补血滋阴，益精填髓。治阴虚血少、腰膝酸软、月经不调。",
+          "发明": "李时珍曰：地黄生则大寒凉血，熟则微温补血，一药两用，随炮制而异。脾虚湿滞、腹满便溏者不宜熟地。",
+          "附方": "《小儿药证直诀》：熟地黄、山茱萸、山药、泽泻、牡丹皮、茯苓，研末蜜丸，补肾阴。六味地黄丸：滋阴补肾，治肾阴不足。"
+        }
+      },
+      {
+        "name": "麦门冬",
+        "content": {
+          "释名": "《本草纲目》：麦门冬一名沿阶草，生山谷肥地，四月采根，叶如韭，根连珠而白。",
+          "气味": "甘，微寒，无毒。",
+          "主治": "主心腹结气，伤中伤饱，胃络脉绝，羸瘦短气。养阴润肺，益胃生津，清心除烦。",
+          "发明": "李时珍曰：麦门冬甘寒滋润，润肺清心，燥咳咽干者宜之。脾胃虚寒、湿痰壅盛者忌用。",
+          "附方": "《经验方》：麦门冬、半夏、人参、甘草、大枣，水煎服，治肺胃阴虚咳逆。二冬汤：天冬、麦冬，水煎，润肺生津。"
+        }
+      },
+      {
+        "name": "五味子",
+        "content": {
+          "释名": "《本草纲目》：五味子一名玄及，生齐山山谷，七月采实，皮肉甘酸，核中辛苦，味兼五味。",
+          "气味": "酸，温，无毒。",
+          "主治": "主益气，咳逆上气，劳伤羸瘦，补不足，强阴，益男子精。收敛固涩，益气生津，补肾宁心。",
+          "发明": "李时珍曰：五味子酸温收敛，入肺肾二经，敛肺滋肾，生津止汗。外有表邪、内有实热、咳嗽初起者不宜。",
+          "附方": "《医学心悟》：五味子、麦冬、人参，水煎服，敛肺止汗生津。生脉散：人参、麦冬、五味子，益气敛汗，治气阴两虚。"
+        }
+      },
+      {
+        "name": "知母",
+        "content": {
+          "释名": "《本草纲目》：知母一名蚳母，生黄河川谷，二月、八月采根，根黄白色，叶似韭。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主消渴热中，除邪气，肢体浮肿，下水，补不足，益气。清热泻火，滋阴润燥。",
+          "发明": "李时珍曰：知母苦寒上清肺金，下润肾燥，与黄柏相须，滋阴降火。脾胃虚寒、大便溏泄者忌服。",
+          "附方": "《伤寒论》：知母六两，石膏一斤，甘草二两，粳米六合。水煎服，清热除烦。白虎汤：治阳明气分大热、烦渴。"
+        }
+      },
+      {
+        "name": "金银花",
+        "content": {
+          "释名": "《本草纲目》：金银花一名忍冬，藤生，凌冬不凋，花初开白，后转黄，黄白相映。",
+          "气味": "甘，寒，无毒。",
+          "主治": "主寒热身肿，久服轻身长年。清热解毒，疏散风热，凉血止痢。",
+          "发明": "李时珍曰：金银花甘寒，散热解毒，为痈肿疮疡要药，与连翘相须治风热外感。脾胃虚寒、疮疡属阴者慎用。",
+          "附方": "《温病条辨》：金银花、连翘、桔梗、薄荷等，水煎服，辛凉透表。银翘散：治风温初起、发热咽痛。"
+        }
+      },
+      {
+        "name": "丹参",
+        "content": {
+          "释名": "《本草纲目》：丹参一名赤参，生桐柏山川谷，五月采根，皮赤肉紫，根有须。",
+          "气味": "苦，微寒，无毒。",
+          "主治": "主心腹邪气，肠鸣幽幽如走水，寒热积聚，破癥除瘕。活血祛瘀，通经止痛，清心除烦。",
+          "发明": "李时珍曰：丹参色赤入心，活血而兼养血，一味可抵四物，调经止痛。无瘀血者及孕妇慎用。",
+          "附方": "《经验方》：丹参、檀香、砂仁，水煎服，活血行气止痛。丹参饮：治心腹瘀痛、月经不调。"
+        }
+      },
+      {
+        "name": "大黄",
+        "content": {
+          "释名": "《本草纲目》：大黄一名黄良，生河西山谷，二月、八月采根，色黄，大者如碗。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主下瘀血，血闭寒热，破癥瘕积聚，荡涤肠胃，推陈致新。泻下攻积，清热泻火，凉血解毒。",
+          "发明": "李时珍曰：大黄苦寒沉降，力猛走而不守，泻热通腑；酒制则上行清上焦。脾胃虚弱、孕妇、经期产后忌用。",
+          "附方": "《伤寒论》：大黄四两，厚朴二两，枳实三枚，芒硝三合。水煎服，泻热通便。大承气汤：治阳明腑实、大便秘结。"
+        }
+      },
+      {
+        "name": "泽泻",
+        "content": {
+          "释名": "《本草纲目》：泽泻一名水泻，生汝南池泽，五月采根，叶似牛舌，根圆如珠。",
+          "气味": "甘，寒，无毒。",
+          "主治": "主风寒湿痹，乳难，消水，养五脏，益气力，肥健。利水渗湿，泄热，通淋。",
+          "发明": "李时珍曰：泽泻甘寒渗利，行水泄热，入肾膀胱经；利小便而消水肿。肾虚精滑、无湿热者忌服。",
+          "附方": "《伤寒论》：泽泻五两，猪苓、茯苓、白术各三两，桂枝二两。水煎服，利水渗湿。五苓散：治水湿内停、小便不利。"
+        }
+      }] },
+  { "name": "谷部", "department": "谷", "page": "06谷部.html", "medicines": [] },
+  { "name": "菜部", "department": "菜", "page": "07菜部.html", "medicines": [] },
+  { "name": "果部", "department": "果", "page": "08果部.html", "medicines": [] },
+  { "name": "木部", "department": "木", "page": "09木部.html", "medicines": [] },
+  { "name": "服器部", "department": "服器", "page": "10服器部.html", "medicines": [] },
+  { "name": "虫部", "department": "虫", "page": "11虫部.html", "medicines": [] },
+  { "name": "鳞部", "department": "鳞", "page": "12鳞部.html", "medicines": [] },
+  { "name": "介部", "department": "介", "page": "13介部.html", "medicines": [] },
+  { "name": "禽部", "department": "禽", "page": "14禽部.html", "medicines": [] },
+  { "name": "兽部", "department": "兽", "page": "15兽部.html", "medicines": [] },
+  { "name": "人部", "department": "人", "page": "16人部.html", "medicines": [
+	   {
+        "name": "血余（人发）",
+        "content": {
+          "释名": "《本草纲目》：血余即人发，发者血之余，故名。拣净皂角水洗净，煅焖成炭，名血余炭。",
+          "气味": "苦，温，无毒。",
+          "主治": "主咳嗽，五淋，大小便不通，小儿惊痫，止血。收敛止血，化瘀利尿。",
+          "发明": "李时珍曰：发为血之余，煅炭止血，专入血分，吐衄便血、外伤出血皆可用之。此为古籍条目存档；现代药材须取健康人发、依法炮制，遵医嘱使用，不可自行采集内服。",
+          "附方": "《经验方》：血余炭研末，每服一钱，温水送下，止血化瘀。发灰散：煅发炭外敷金疮止血。"
+        }
+      },
+      {
+        "name": "人中黄",
+        "content": {
+          "释名": "《本草纲目》：人中黄一名甘中黄，以甘草末置竹筒内，于人粪坑中浸渍日久取出，阴干用。",
+          "气味": "甘、咸，寒，无毒。",
+          "主治": "主热病发狂，痘疮血热，丹毒。清热凉血，泻火解毒。",
+          "发明": "李时珍曰：人中黄苦寒，清胃中实热、解瘟毒，为加工制品而非人体组织。属古本草条目，现代临床少用，脾胃虚寒者忌服，须遵医嘱。",
+          "附方": "《经验方》：人中黄配金银花、连翘，水煎服，清热解毒。人中黄散：研末，治温毒热病。"
+        }
+      },
+      {
+        "name": "人乳",
+        "content": {
+          "释名": "《本草纲目》：人乳一名奶汁，性味甘咸，古方入药多取稠厚者，或焙干为粉。",
+          "气味": "甘，平，无毒。",
+          "主治": "主补五脏，令人肥白润泽。补虚润燥，益脾生津，明目润肤。",
+          "发明": "李时珍曰：人乳甘润，补阴养血、润燥止渴，为虚劳燥咳滋养之品。此为古籍记载；现代不作常规药材，且涉及伦理与卫生要求，不可自行采集服用。",
+          "附方": "《经验方》：人乳配梨汁、蜂蜜，润养肺燥（古方）。乳粉：人乳焙干为粉，古方补虚。"
+        }
+      },
+      {
+        "name": "人指甲",
+        "content": {
+          "释名": "《本草纲目》：人指甲一名筋退，剪取洗净，炙研用，古方多作外用或少量入散。",
+          "气味": "甘、咸，平，无毒。",
+          "主治": "主喉痹，耳中出脓，淋疾，去翳膜。利咽，止血，去翳，外用拔脓。",
+          "发明": "李时珍曰：指甲为筋之余，古方焙研吹喉、外敷疮疡；现代已基本不用。仅作古籍条目存档，严禁自行采集内服。",
+          "附方": "《经验方》：指甲炙研，吹入喉中治喉痹（古方）。甲末散：焙研外掺耳疮目翳。"
+        }
+      }
+  ] }
+];
+
+// ★ 当前页面所属部：复制到其他部时，只改这里的部名即可（和 books 里 name 一致）
+const CURRENT_DEPT_NAME = "草部";
+
+let currentDept = detectDept();
+let currentMedicine = null;
+let currentMedIdx = -1;
+let fontSize = 16;
+let isDark = localStorage.getItem('darkMode') === '1';
+
+function toggleSidebar(){
+  const s = document.getElementById('sidebar');
+  const m = document.getElementById('mask');
+  s.classList.toggle('open');
+  m.classList.toggle('show');
+}
+
+// 三重识别：URL 参数 ?dept=gu.html → 文件名 → 页面标题里的部名 → CURRENT_DEPT_NAME 兜底
+function detectDept(){
+  const params = new URLSearchParams(location.search);
+  const p = params.get('dept');
+
+  let i = -1;
+  if (p) i = books.findIndex(b => b.page === p || b.page === p + '.html' || b.name === p);
+
+  if (i < 0) {
+    const file = decodeURIComponent(location.pathname.split('/').pop() || '');
+    i = books.findIndex(b => b.page === file);
+  }
+
+  if (i < 0) {
+    const title = document.title || '';
+    i = books.findIndex(b => title.includes(b.name));
+  }
+
+  if (i < 0) {
+    i = books.findIndex(b => b.name === CURRENT_DEPT_NAME);
+  }
+
+  return i >= 0 ? i : 0;
+}
+
+function renderText(str){
+  if(str==null) return "";
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function goPage(b){ location.href = b.page; }
+
+// 左侧药材明细
+function renderSidebar(){
+  const list = document.getElementById('med-list');
+  list.innerHTML = '';
+  const dept = books[currentDept];
+
+  if(!dept.medicines || dept.medicines.length === 0){
+    list.innerHTML = '<div class="med-empty">暂无药材，可自行添加</div>';
+    renderEmptyDept(dept);
+    return;
+  }
+
+  dept.medicines.forEach((med, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'med-item';
+    el.textContent = med.name;
+    el.onclick = ()=>{
+      loadMedicine(idx);
+      if(window.innerWidth <=768){ toggleSidebar(); }
+    };
+    list.appendChild(el);
+  });
+  loadMedicine(0);
+}
+
+// 空部门占位卡片
+function renderEmptyDept(dept){
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + '</strong>';
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">' + dept.name +
+    '</div><div class="card-sub">本部分类内容待补充</div></div></div>';
+  document.querySelectorAll('.med-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('med-pager').classList.add('hidden');
+  updateNav();
+}
+
+// 加载某一味药材
+function loadMedicine(idx){
+  const dept = books[currentDept];
+  const med = dept.medicines[idx] || dept.medicines[0];
+  if(!med){ renderEmptyDept(dept); return; }
+  currentMedicine = med;
+  currentMedIdx = dept.medicines.indexOf(med);
+
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + ' · ' + med.name + '</strong>';
+
+  const sections = Object.entries(med.content).map(([k,v])=>
+    '<div class="section"><div class="section-title">'+k+'：</div>'+
+    '<div class="section-text" contenteditable="true" spellcheck="false" data-key="'+k+'">'+renderText(v)+'</div></div>'
+  ).join('');
+
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">'+med.name+'</div>'+
+    '<div class="card-sub">'+dept.name+'</div></div>'+sections+'</div>';
+
+  document.querySelectorAll('.med-item').forEach((el,i)=> el.classList.toggle('active', i===idx));
+  document.querySelectorAll('.section-text').forEach(el=>{
+    el.onblur = function(){
+      if(currentMedicine){ currentMedicine.content[this.dataset.key] = this.innerText; }
+    };
+  });
+  updateNav();
+  updateMedNav();
+}
+
+function updateNav(){
+  const prev = document.getElementById('prev-btn');
+  const next = document.getElementById('next-btn');
+  prev.disabled = currentDept === 0;
+  next.disabled = currentDept === books.length - 1;
+  prev.textContent = currentDept>0 ? '❮ '+books[currentDept-1].name : '❮ 上一部';
+  next.textContent = currentDept<books.length-1 ? books[currentDept+1].name+' ❯' : '下一部 ❯';
+}
+
+function prevDept(){ if(currentDept>0){ goPage(books[currentDept-1]); } }
+function nextDept(){ if(currentDept<books.length-1){ goPage(books[currentDept+1]); } }
+
+// 部内药材翻页（上一味 / 下一味）
+function updateMedNav(){
+  const dept = books[currentDept];
+  const meds = dept.medicines || [];
+  const pager = document.getElementById('med-pager');
+  const prev = document.getElementById('prev-med-btn');
+  const next = document.getElementById('next-med-btn');
+  const pos = document.getElementById('med-pos');
+
+  if(meds.length === 0){ pager.classList.add('hidden'); return; }
+  pager.classList.remove('hidden');
+
+  prev.disabled = currentMedIdx <= 0;
+  next.disabled = currentMedIdx >= meds.length - 1;
+  prev.textContent = currentMedIdx > 0 ? '❮ ' + meds[currentMedIdx-1].name : '❮ 上一味';
+  next.textContent = currentMedIdx < meds.length - 1 ? meds[currentMedIdx+1].name + ' ❯' : '下一味 ❯';
+  pos.textContent = (currentMedIdx + 1) + ' / ' + meds.length;
+}
+
+function prevMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx > 0){ loadMedicine(currentMedIdx - 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function nextMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx < meds.length - 1){ loadMedicine(currentMedIdx + 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function adjustFont(d){
+  fontSize = Math.max(13,Math.min(24,fontSize+d));
+  document.getElementById('content-area').style.fontSize = fontSize+'px';
+}
+function applyTheme(){
+  document.body.classList.toggle('dark-mode', isDark);
+  const tb = document.querySelector('.theme-toggle');
+  if(tb) tb.textContent = isDark ? '☀' : '🌙';
+}
+function toggleTheme(){
+  isDark = !isDark;
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  applyTheme();
+}
+
+// 背景音乐：自动播放（先静音通过浏览器限制）；按钮切换播放/暂停
+const bgMusic = document.getElementById('bgMusic');
+const btnMusic = document.getElementById('btn-music');
+function syncMusicIcon(){ btnMusic.textContent = bgMusic.paused ? '🎵' : '🔇'; }
+bgMusic.play().then(syncMusicIcon).catch(syncMusicIcon);
+function toggleMusic(){
+  bgMusic.muted = false;
+  if(bgMusic.paused){ bgMusic.play(); } else { bgMusic.pause(); }
+  syncMusicIcon();
+}
+function unlockAudio(){
+  bgMusic.muted = false; bgMusic.play(); syncMusicIcon();
+  document.body.removeEventListener('click', unlockAudio);
+  document.body.removeEventListener('pointerdown', unlockAudio);
+  document.body.removeEventListener('touchstart', unlockAudio);
+}
+document.body.addEventListener('click', unlockAudio, { once: true });
+document.body.addEventListener('pointerdown', unlockAudio, { once: true });
+document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+applyTheme();
+document.getElementById('content-area').style.fontSize = fontSize+'px';
+renderSidebar();
+</script>
+</body>
+</html>

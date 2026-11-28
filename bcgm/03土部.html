@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本草纲目 · 土部</title>
+<meta name="description" content="本草纲目,中医宝典,医宗金鉴,中医书籍,中医名著,中医古籍,中医书籍大全" />
+<meta name="keywords" content="医典包括中医书籍有:中药大全,方剂大全,中医经论,中医伤寒,中医金匮,中医诊治,中医本草,中医方言,中医内科,中医外科,中医儿科,中医妇科,中医五官,中医针灸,中医医论" />
+<link rel="shortcut icon" href="images/favicon.ico">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"SimSun","宋体","STSong",serif; }
+  body { background:#f4f1e8; color:#4a3728; line-height:1.8; min-height:100vh; }
+  body.dark-mode { background:#2d241a; color:#e8d5b8; }
+  .wrap { max-width:1400px; margin:0 auto; position:relative; }
+  .wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,#8b4513 33%,#d2691e 33%,#d2691e 66%,#8b4513 66%); }
+
+  .sidebar { width:260px; background:linear-gradient(180deg,#e8d5b8,#f4f1e8); border-right:3px double #8b4513;
+    padding:20px 15px; position:fixed; left:0; top:20px; bottom:20px; overflow-y:auto; z-index:1000;
+    transition: left 0.3s ease;
+  }
+  body.dark-mode .sidebar { background:linear-gradient(180deg,#4a3728,#2d241a); }
+  .sidebar h2 { font-size:22px; color:#8b4513; text-align:center; padding-bottom:12px; margin-bottom:15px;
+    border-bottom:2px solid #8b4513; letter-spacing:3px; }
+  body.dark-mode .sidebar h2 { color:#e8d5b8; }
+  .med-item { padding:10px 12px; margin-bottom:6px; background:linear-gradient(90deg,#d2691e,#8b4513);
+    color:#fff; border-radius:5px; cursor:pointer; font-size:15px; }
+  .med-item:hover { filter:brightness(1.1); }
+  .med-item.active { outline:2px solid #4a3728; }
+  .med-empty { padding:14px 12px; text-align:center; color:#a07040; font-size:14px; }
+
+  .main { margin-left:260px; padding:30px 40px; min-height:100vh; }
+  .top-bar { position:sticky; top:0; z-index:900; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin:0 -40px 20px; padding:12px 40px; background:#f4f1e8; box-shadow:0 2px 6px rgba(74,55,40,.15); }
+  body.dark-mode .top-bar { background:#2d241a; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+  .menu-btn { width:35px;height:35px;border:none;border-radius:50%;background:linear-gradient(90deg,#8b4513,#d2691e);color:#fff;cursor:pointer;font-size:18px; }
+  .pagination { display:flex; gap:10px; align-items:center; }
+  .pagination button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .pagination button:hover { filter:brightness(1.1); }
+  .pagination button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager { display:flex; gap:12px; align-items:center; justify-content:center; margin:22px 0 10px; flex-wrap:wrap; }
+  .med-pager button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .med-pager button:hover { filter:brightness(1.1); }
+  .med-pager button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager .med-pos { font-size:14px; color:#a07040; }
+  body.dark-mode .med-pager .med-pos { color:#c9a87a; }
+  .med-pager.hidden { display:none; }
+  .tools { display:flex; gap:10px; align-items:center; }
+  .tools button { width:35px; height:35px; border:none; border-radius:50%; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+  .theme-toggle { padding:5px 15px; border:none; border-radius:20px; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+
+  .volume-info { text-align:center; padding:15px; margin-bottom:20px; background:linear-gradient(90deg,rgba(139,69,19,.1),transparent); border-radius:5px; }
+  .volume-info strong { color:#8b4513; font-size:18px; letter-spacing:2px; }
+  body.dark-mode .volume-info strong { color:#e8d5b8; }
+
+  .card { background:linear-gradient(180deg,#fff,#f9f5eb); border:1px solid #d4c4a8; border-radius:8px; padding:30px; position:relative; }
+  body.dark-mode .card { background:linear-gradient(180deg,#3d3022,#2d241a); border-color:#5a4433; }
+  .card-header { text-align:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #d4c4a8; }
+  .card-title { font-size:1.6em; color:#8b4513; letter-spacing:2px; }
+  body.dark-mode .card-title { color:#e8d5b8; }
+  .card-sub { font-size:0.85em; color:#a07040; margin-top:6px; }
+
+  .section { margin:18px 0; }
+  .section-title { font-size:1.05em; color:#8b4513; font-weight:bold; padding-left:10px; border-left:3px solid #d2691e; margin-bottom:5px; }
+  body.dark-mode .section-title { color:#e8d5b8; }
+  .section-text { font-size:1em; line-height:1.9; padding:6px 10px; border-radius:4px; white-space:pre-wrap; outline:none; word-break:normal; }
+  .section-text:focus { background:rgba(139,69,19,.1); }
+
+  .back-home { display:inline-block; margin-bottom:15px; color:#8b4513; cursor:pointer; text-decoration:underline; font-size:14px; }
+
+  .mask { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; display:none; }
+  .mask.show { display:block; }
+
+  @media (max-width:768px){
+    .sidebar { left:-260px; }
+    .sidebar.open { left:0; }
+    .main { margin-left:0; padding:20px 16px; }
+    .top-bar { margin:0 -16px 20px; padding:12px 16px; }
+    .card { padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+<audio id="bgMusic" autoplay loop muted>
+  <source src="mp3/你走以后我才敢说爱你 - 山野葫芦.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrap">
+  <div class="sidebar" id="sidebar">
+    <h2>本草纲目</h2>
+    <div id="med-list"></div>
+  </div>
+  <div class="mask" id="mask" onclick="toggleSidebar()"></div>
+  <div class="main">
+    <div class="top-bar">
+      <div class="pagination">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <button onclick="prevDept()" id="prev-btn">❮ 上一部</button>
+        <button onclick="nextDept()" id="next-btn">下一部 ❯</button>
+      </div>
+      <div class="tools">
+        <button onclick="adjustFont(-1)">A-</button>
+        <button onclick="adjustFont(1)">A+</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙古籍模式</button>
+        <button id="btn-music" onclick="toggleMusic()" title="背景音乐">🎵</button>
+      </div>
+    </div>
+    <a class="back-home" href="../index.html">‹ 返回目录</a>
+    <div class="volume-info" id="volume-info"><strong>土部</strong></div>
+    <div id="content-area"> </div>
+    <div class="med-pager" id="med-pager">
+      <button onclick="prevMed()" id="prev-med-btn">❮ 上一味</button>
+      <span class="med-pos" id="med-pos"></span>
+      <button onclick="nextMed()" id="next-med-btn">下一味 ❯</button>
+    </div>
+	  <div class="disclaimer">
+      <strong>⚠️ 免责与版权声明</strong>
+      <p>本网页仅为明代古籍《本草纲目》的文化阅览与文献研究整理，不构成任何医疗诊断或用药指导，不能作为抓药、内服、外用的参考依据。书中部分矿物药、虫类药有毒，部分动物药材涉及国家保护野生动物，受《野生动物保护法》等法规管制，须凭执业医师处方、通过合法正规渠道使用，严禁私自采集、猎捕、交易；人部条目为历史文献存档，现代已禁用，切勿自行内服。古籍内容受时代局限，不代表现代医学观点，由此自行用药产生的后果由使用者自负。原著《本草纲目》为公版古籍；本网页排版与数字化整理文本受著</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================= 16 部目录 =================
+const books = [
+  { "name": "水部", "department": "水", "page": "01水部.html", "medicines": [] },
+  { "name": "火部", "department": "火", "page": "02火部.html", "medicines": [] },
+  { "name": "土部", "department": "土", "page": "03土部.html", "medicines": [
+	  {
+        "name": "黄土",
+        "content": {
+          "释名": "又名好土、黄土。山间田野所出黄壤，取净土入药。",
+          "气味": "甘，平，无毒",
+          "主治": "解毒，止泄痢，消食，外敷痈肿诸疮，亦治中暑卒厥",
+          "发明": "李时珍曰：黄土地气中和，味甘性平，为土之正色，内服和中，外用拔毒。",
+          "附方": "中暑昏仆，取黄土水澄澄清饮之；痈肿初起，以净土和醋敷患处。内服须洁净，不可轻用。"
+        }
+      },
+      {
+        "name": "白垩",
+        "content": {
+          "释名": "又名白土粉、白善土。色白细腻之黏土，煅用为粉。",
+          "气味": "苦，温，无毒",
+          "主治": "温中，涩肠，止泻痢，敛疮止血，外用燥湿生肌",
+          "发明": "李时珍曰：白垩质腻性涩，入脾胃而固肠，外用可收敛疮口、收湿止痒。",
+          "附方": "久泻久痢，白垩研末水冲服；湿疮流水，白垩粉干掺患处。内服量宜轻，遵医嘱。"
+        }
+      },
+      {
+        "name": "伏龙肝",
+        "content": {
+          "释名": "又名灶心土。农家柴灶灶心久烧之黄土块。",
+          "气味": "辛，微温，无毒",
+          "主治": "温中止血，止呕止吐，敛肠止泻，治吐血便血、妊娠恶阻、脾虚久泻",
+          "发明": "李时珍曰：伏龙肝得火土之气，性温而涩，能引气血归经，止血止呕，为脾胃要药。",
+          "附方": "呕吐清水、脾虚泄泻，伏龙肝捣碎煎汤澄清代水；吐血便血，随方配伍。须打碎先煎。"
+        }
+      },
+      {
+        "name": "东壁土",
+        "content": {
+          "释名": "又名东墙土。老屋东壁向阳处之旧土墙土。",
+          "气味": "甘，平，无毒",
+          "主治": "健脾利湿，止泻痢，消痈肿，去湿疮，外用涂疮癣",
+          "发明": "李时珍曰：东壁土受日光阳气，土性温和，能利湿而不燥，故治湿疮泄痢。",
+          "附方": "湿热疮癣，东壁土研末敷之；泄痢后重，煎汤澄清代水饮。取向阳旧壁净土。"
+        }
+      },
+      {
+        "name": "赤土",
+        "content": {
+          "释名": "又名赭土。色红赤之黏土，含氧化铁而成。",
+          "气味": "甘，温，无毒",
+          "主治": "止血，消肿，续筋骨，外敷跌打损伤、痈肿，亦治泻痢",
+          "发明": "李时珍曰：赤土色赤入血，性温收敛，外敷跌打瘀肿，可止血散瘀。",
+          "附方": "跌打损伤瘀肿，赤土和醋捣烂敷患处；内服须研极细、水飞后用，不宜过量。"
+        }
+      },
+      {
+        "name": "蚯蚓泥",
+        "content": {
+          "释名": "又名蚓泥、蚯蚓粪。蚯蚓穴居排出之湿土。",
+          "气味": "甘、酸，寒，无毒",
+          "主治": "清热利湿，消肿解毒，外敷小儿丹毒、阴囊湿疹、疮癣",
+          "发明": "李时珍曰：蚓泥得蚯蚓蠕动松透之气，性寒清利，外用消湿热疮毒，内服少用。",
+          "附方": "丹毒、阴囊湿痒，蚯蚓泥研细，和茶油或醋调敷患处；取净土晒干，去杂。"
+        }
+      },
+      {
+        "name": "甘土",
+        "content": {
+          "释名": "又名好土、白墡土。色白味甘之黏壤，质地细腻。",
+          "气味": "甘，平，无毒",
+          "主治": "解毒和中，止渴，敷诸疮毒，解草药、鱼肉中毒",
+          "发明": "李时珍曰：甘土味甘性平，土气敦厚，能安中和胃，解草木诸毒。",
+          "附方": "误食草药毒及食物中毒，取甘土水澄清饮之；疮毒外敷，以净土和水调敷。"
+        }
+      },
+      {
+        "name": "黑土",
+        "content": {
+          "释名": "又名黑垆土。色深黑之肥沃壤土。",
+          "气味": "咸，寒，无毒",
+          "主治": "清热，消积聚，外敷痈肿，内服少用，多取外用",
+          "发明": "李时珍曰：黑土色黑入肾，性寒沉降，然尘秽不净，古方多外敷取其寒散肿毒。",
+          "附方": "痈肿掀热，黑土研细调敷；因土性不洁，内服须辨证遵医嘱，不可自行煎汤。"
+        }
+      }
+  ] },
+  { "name": "金石部", "department": "金石", "page": "04金石部.html", "medicines": [] },
+  { "name": "草部", "department": "草", "page": "05草部.html", "medicines": [] },
+  { "name": "谷部", "department": "谷", "page": "06谷部.html", "medicines": [] },
+  { "name": "菜部", "department": "菜", "page": "07菜部.html", "medicines": [] },
+  { "name": "果部", "department": "果", "page": "08果部.html", "medicines": [] },
+  { "name": "木部", "department": "木", "page": "09木部.html", "medicines": [] },
+  { "name": "服器部", "department": "服器", "page": "10服器部.html", "medicines": [] },
+  { "name": "虫部", "department": "虫", "page": "11虫部.html", "medicines": [] },
+  { "name": "鳞部", "department": "鳞", "page": "12鳞部.html", "medicines": [] },
+  { "name": "介部", "department": "介", "page": "13介部.html", "medicines": [] },
+  { "name": "禽部", "department": "禽", "page": "14禽部.html", "medicines": [] },
+  { "name": "兽部", "department": "兽", "page": "15兽部.html", "medicines": [] },
+  { "name": "人部", "department": "人", "page": "16人部.html", "medicines": [] }
+];
+
+// ★ 当前页面所属部：复制到其他部时，只改这里的部名即可（和 books 里 name 一致）
+const CURRENT_DEPT_NAME = "草部";
+
+let currentDept = detectDept();
+let currentMedicine = null;
+let currentMedIdx = -1;
+let fontSize = 16;
+let isDark = localStorage.getItem('darkMode') === '1';
+
+function toggleSidebar(){
+  const s = document.getElementById('sidebar');
+  const m = document.getElementById('mask');
+  s.classList.toggle('open');
+  m.classList.toggle('show');
+}
+
+// 三重识别：URL 参数 ?dept=gu.html → 文件名 → 页面标题里的部名 → CURRENT_DEPT_NAME 兜底
+function detectDept(){
+  const params = new URLSearchParams(location.search);
+  const p = params.get('dept');
+
+  let i = -1;
+  if (p) i = books.findIndex(b => b.page === p || b.page === p + '.html' || b.name === p);
+
+  if (i < 0) {
+    const file = decodeURIComponent(location.pathname.split('/').pop() || '');
+    i = books.findIndex(b => b.page === file);
+  }
+
+  if (i < 0) {
+    const title = document.title || '';
+    i = books.findIndex(b => title.includes(b.name));
+  }
+
+  if (i < 0) {
+    i = books.findIndex(b => b.name === CURRENT_DEPT_NAME);
+  }
+
+  return i >= 0 ? i : 0;
+}
+
+function renderText(str){
+  if(str==null) return "";
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function goPage(b){ location.href = b.page; }
+
+// 左侧药材明细
+function renderSidebar(){
+  const list = document.getElementById('med-list');
+  list.innerHTML = '';
+  const dept = books[currentDept];
+
+  if(!dept.medicines || dept.medicines.length === 0){
+    list.innerHTML = '<div class="med-empty">暂无药材，可自行添加</div>';
+    renderEmptyDept(dept);
+    return;
+  }
+
+  dept.medicines.forEach((med, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'med-item';
+    el.textContent = med.name;
+    el.onclick = ()=>{
+      loadMedicine(idx);
+      if(window.innerWidth <=768){ toggleSidebar(); }
+    };
+    list.appendChild(el);
+  });
+  loadMedicine(0);
+}
+
+// 空部门占位卡片
+function renderEmptyDept(dept){
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + '</strong>';
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">' + dept.name +
+    '</div><div class="card-sub">本部分类内容待补充</div></div></div>';
+  document.querySelectorAll('.med-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('med-pager').classList.add('hidden');
+  updateNav();
+}
+
+// 加载某一味药材
+function loadMedicine(idx){
+  const dept = books[currentDept];
+  const med = dept.medicines[idx] || dept.medicines[0];
+  if(!med){ renderEmptyDept(dept); return; }
+  currentMedicine = med;
+  currentMedIdx = dept.medicines.indexOf(med);
+
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + ' · ' + med.name + '</strong>';
+
+  const sections = Object.entries(med.content).map(([k,v])=>
+    '<div class="section"><div class="section-title">'+k+'：</div>'+
+    '<div class="section-text" contenteditable="true" spellcheck="false" data-key="'+k+'">'+renderText(v)+'</div></div>'
+  ).join('');
+
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">'+med.name+'</div>'+
+    '<div class="card-sub">'+dept.name+'</div></div>'+sections+'</div>';
+
+  document.querySelectorAll('.med-item').forEach((el,i)=> el.classList.toggle('active', i===idx));
+  document.querySelectorAll('.section-text').forEach(el=>{
+    el.onblur = function(){
+      if(currentMedicine){ currentMedicine.content[this.dataset.key] = this.innerText; }
+    };
+  });
+  updateNav();
+  updateMedNav();
+}
+
+function updateNav(){
+  const prev = document.getElementById('prev-btn');
+  const next = document.getElementById('next-btn');
+  prev.disabled = currentDept === 0;
+  next.disabled = currentDept === books.length - 1;
+  prev.textContent = currentDept>0 ? '❮ '+books[currentDept-1].name : '❮ 上一部';
+  next.textContent = currentDept<books.length-1 ? books[currentDept+1].name+' ❯' : '下一部 ❯';
+}
+
+function prevDept(){ if(currentDept>0){ goPage(books[currentDept-1]); } }
+function nextDept(){ if(currentDept<books.length-1){ goPage(books[currentDept+1]); } }
+
+// 部内药材翻页（上一味 / 下一味）
+function updateMedNav(){
+  const dept = books[currentDept];
+  const meds = dept.medicines || [];
+  const pager = document.getElementById('med-pager');
+  const prev = document.getElementById('prev-med-btn');
+  const next = document.getElementById('next-med-btn');
+  const pos = document.getElementById('med-pos');
+
+  if(meds.length === 0){ pager.classList.add('hidden'); return; }
+  pager.classList.remove('hidden');
+
+  prev.disabled = currentMedIdx <= 0;
+  next.disabled = currentMedIdx >= meds.length - 1;
+  prev.textContent = currentMedIdx > 0 ? '❮ ' + meds[currentMedIdx-1].name : '❮ 上一味';
+  next.textContent = currentMedIdx < meds.length - 1 ? meds[currentMedIdx+1].name + ' ❯' : '下一味 ❯';
+  pos.textContent = (currentMedIdx + 1) + ' / ' + meds.length;
+}
+
+function prevMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx > 0){ loadMedicine(currentMedIdx - 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function nextMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx < meds.length - 1){ loadMedicine(currentMedIdx + 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function adjustFont(d){
+  fontSize = Math.max(13,Math.min(24,fontSize+d));
+  document.getElementById('content-area').style.fontSize = fontSize+'px';
+}
+function applyTheme(){
+  document.body.classList.toggle('dark-mode', isDark);
+  const tb = document.querySelector('.theme-toggle');
+  if(tb) tb.textContent = isDark ? '☀' : '🌙';
+}
+function toggleTheme(){
+  isDark = !isDark;
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  applyTheme();
+}
+
+// 背景音乐：自动播放（先静音通过浏览器限制）；按钮切换播放/暂停
+const bgMusic = document.getElementById('bgMusic');
+const btnMusic = document.getElementById('btn-music');
+function syncMusicIcon(){ btnMusic.textContent = bgMusic.paused ? '🎵' : '🔇'; }
+bgMusic.play().then(syncMusicIcon).catch(syncMusicIcon);
+function toggleMusic(){
+  bgMusic.muted = false;
+  if(bgMusic.paused){ bgMusic.play(); } else { bgMusic.pause(); }
+  syncMusicIcon();
+}
+function unlockAudio(){
+  bgMusic.muted = false; bgMusic.play(); syncMusicIcon();
+  document.body.removeEventListener('click', unlockAudio);
+  document.body.removeEventListener('pointerdown', unlockAudio);
+  document.body.removeEventListener('touchstart', unlockAudio);
+}
+document.body.addEventListener('click', unlockAudio, { once: true });
+document.body.addEventListener('pointerdown', unlockAudio, { once: true });
+document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+applyTheme();
+document.getElementById('content-area').style.fontSize = fontSize+'px';
+renderSidebar();
+</script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本草纲目 · 木部</title>
+<meta name="description" content="本草纲目,中医宝典,医宗金鉴,中医书籍,中医名著,中医古籍,中医书籍大全" />
+<meta name="keywords" content="医典包括中医书籍有:中药大全,方剂大全,中医经论,中医伤寒,中医金匮,中医诊治,中医本草,中医方言,中医内科,中医外科,中医儿科,中医妇科,中医五官,中医针灸,中医医论" />
+<link rel="shortcut icon" href="images/favicon.ico">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"SimSun","宋体","STSong",serif; }
+  body { background:#f4f1e8; color:#4a3728; line-height:1.8; min-height:100vh; }
+  body.dark-mode { background:#2d241a; color:#e8d5b8; }
+  .wrap { max-width:1400px; margin:0 auto; position:relative; }
+  .wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,#8b4513 33%,#d2691e 33%,#d2691e 66%,#8b4513 66%); }
+
+  .sidebar { width:260px; background:linear-gradient(180deg,#e8d5b8,#f4f1e8); border-right:3px double #8b4513;
+    padding:20px 15px; position:fixed; left:0; top:20px; bottom:20px; overflow-y:auto; z-index:1000;
+    transition: left 0.3s ease;
+  }
+  body.dark-mode .sidebar { background:linear-gradient(180deg,#4a3728,#2d241a); }
+  .sidebar h2 { font-size:22px; color:#8b4513; text-align:center; padding-bottom:12px; margin-bottom:15px;
+    border-bottom:2px solid #8b4513; letter-spacing:3px; }
+  body.dark-mode .sidebar h2 { color:#e8d5b8; }
+  .med-item { padding:10px 12px; margin-bottom:6px; background:linear-gradient(90deg,#d2691e,#8b4513);
+    color:#fff; border-radius:5px; cursor:pointer; font-size:15px; }
+  .med-item:hover { filter:brightness(1.1); }
+  .med-item.active { outline:2px solid #4a3728; }
+  .med-empty { padding:14px 12px; text-align:center; color:#a07040; font-size:14px; }
+
+  .main { margin-left:260px; padding:30px 40px; min-height:100vh; }
+  .top-bar { position:sticky; top:0; z-index:900; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin:0 -40px 20px; padding:12px 40px; background:#f4f1e8; box-shadow:0 2px 6px rgba(74,55,40,.15); }
+  body.dark-mode .top-bar { background:#2d241a; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+  .menu-btn { width:35px;height:35px;border:none;border-radius:50%;background:linear-gradient(90deg,#8b4513,#d2691e);color:#fff;cursor:pointer;font-size:18px; }
+  .pagination { display:flex; gap:10px; align-items:center; }
+  .pagination button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .pagination button:hover { filter:brightness(1.1); }
+  .pagination button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager { display:flex; gap:12px; align-items:center; justify-content:center; margin:22px 0 10px; flex-wrap:wrap; }
+  .med-pager button { padding:10px 18px; font-family:inherit; font-size:15px;
+    background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; border:none; border-radius:5px; cursor:pointer; }
+  .med-pager button:hover { filter:brightness(1.1); }
+  .med-pager button:disabled { background:#ccc; cursor:not-allowed; }
+  .med-pager .med-pos { font-size:14px; color:#a07040; }
+  body.dark-mode .med-pager .med-pos { color:#c9a87a; }
+  .med-pager.hidden { display:none; }
+  .tools { display:flex; gap:10px; align-items:center; }
+  .tools button { width:35px; height:35px; border:none; border-radius:50%; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+  .theme-toggle { padding:5px 15px; border:none; border-radius:20px; background:linear-gradient(90deg,#8b4513,#d2691e); color:#fff; cursor:pointer; }
+
+  .volume-info { text-align:center; padding:15px; margin-bottom:20px; background:linear-gradient(90deg,rgba(139,69,19,.1),transparent); border-radius:5px; }
+  .volume-info strong { color:#8b4513; font-size:18px; letter-spacing:2px; }
+  body.dark-mode .volume-info strong { color:#e8d5b8; }
+
+  .card { background:linear-gradient(180deg,#fff,#f9f5eb); border:1px solid #d4c4a8; border-radius:8px; padding:30px; position:relative; }
+  body.dark-mode .card { background:linear-gradient(180deg,#3d3022,#2d241a); border-color:#5a4433; }
+  .card-header { text-align:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #d4c4a8; }
+  .card-title { font-size:1.6em; color:#8b4513; letter-spacing:2px; }
+  body.dark-mode .card-title { color:#e8d5b8; }
+  .card-sub { font-size:0.85em; color:#a07040; margin-top:6px; }
+
+  .section { margin:18px 0; }
+  .section-title { font-size:1.05em; color:#8b4513; font-weight:bold; padding-left:10px; border-left:3px solid #d2691e; margin-bottom:5px; }
+  body.dark-mode .section-title { color:#e8d5b8; }
+  .section-text { font-size:1em; line-height:1.9; padding:6px 10px; border-radius:4px; white-space:pre-wrap; outline:none; word-break:normal; }
+  .section-text:focus { background:rgba(139,69,19,.1); }
+
+  .back-home { display:inline-block; margin-bottom:15px; color:#8b4513; cursor:pointer; text-decoration:underline; font-size:14px; }
+
+  .mask { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; display:none; }
+  .mask.show { display:block; }
+
+  @media (max-width:768px){
+    .sidebar { left:-260px; }
+    .sidebar.open { left:0; }
+    .main { margin-left:0; padding:20px 16px; }
+    .top-bar { margin:0 -16px 20px; padding:12px 16px; }
+    .card { padding:20px 16px; }
+  }
+</style>
+</head>
+<body>
+<audio id="bgMusic" autoplay loop muted>
+  <source src="mp3/你走以后我才敢说爱你 - 山野葫芦.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrap">
+  <div class="sidebar" id="sidebar">
+    <h2>本草纲目</h2>
+    <div id="med-list"></div>
+  </div>
+  <div class="mask" id="mask" onclick="toggleSidebar()"></div>
+  <div class="main">
+    <div class="top-bar">
+      <div class="pagination">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <button onclick="prevDept()" id="prev-btn">❮ 上一部</button>
+        <button onclick="nextDept()" id="next-btn">下一部 ❯</button>
+      </div>
+      <div class="tools">
+        <button onclick="adjustFont(-1)">A-</button>
+        <button onclick="adjustFont(1)">A+</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙古籍模式</button>
+        <button id="btn-music" onclick="toggleMusic()" title="背景音乐">🎵</button>
+      </div>
+    </div>
+    <a class="back-home" href="../index.html">‹ 返回目录</a>
+    <div class="volume-info" id="volume-info"><strong>木部</strong></div>
+    <div id="content-area"> </div>
+    <div class="med-pager" id="med-pager">
+      <button onclick="prevMed()" id="prev-med-btn">❮ 上一味</button>
+      <span class="med-pos" id="med-pos"></span>
+      <button onclick="nextMed()" id="next-med-btn">下一味 ❯</button>
+    </div>
+	  <div class="disclaimer">
+      <strong>⚠️ 免责与版权声明</strong>
+      <p>本网页仅为明代古籍《本草纲目》的文化阅览与文献研究整理，不构成任何医疗诊断或用药指导，不能作为抓药、内服、外用的参考依据。书中部分矿物药、虫类药有毒，部分动物药材涉及国家保护野生动物，受《野生动物保护法》等法规管制，须凭执业医师处方、通过合法正规渠道使用，严禁私自采集、猎捕、交易；人部条目为历史文献存档，现代已禁用，切勿自行内服。古籍内容受时代局限，不代表现代医学观点，由此自行用药产生的后果由使用者自负。原著《本草纲目》为公版古籍；本网页排版与数字化整理文本受著</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================= 16 部目录 =================
+const books = [
+  { "name": "水部", "department": "水", "page": "01水部.html", "medicines": [] },
+  { "name": "火部", "department": "火", "page": "02火部.html", "medicines": [] },
+  { "name": "土部", "department": "土", "page": "03土部.html", "medicines": [] },
+  { "name": "金石部", "department": "金石", "page": "04金石部.html", "medicines": [] },
+  { "name": "草部", "department": "草", "page": "05草部.html", "medicines": [] },
+  { "name": "谷部", "department": "谷", "page": "06谷部.html", "medicines": [] },
+  { "name": "菜部", "department": "菜", "page": "07菜部.html", "medicines": [] },
+  { "name": "果部", "department": "果", "page": "08果部.html", "medicines": [] },
+  { "name": "木部", "department": "木", "page": "09木部.html", "medicines": [
+	  {
+        "name": "肉桂",
+        "content": {
+          "释名": "《本草纲目》：肉桂一名牡桂，桂树之皮，厚而紫润者为桂心，去粗皮用。",
+          "气味": "辛、甘，大热，无毒。",
+          "主治": "主上气咳逆，结气喉痹吐吸，利关节，补中益气。补火助阳，散寒止痛，温通经脉，引火归元。",
+          "发明": "李时珍曰：肉桂辛甘大热，温补肾阳，散寒止痛；与桂枝同出桂树，枝偏解表，皮偏温里。阴虚火旺、里实热者忌用，孕妇慎服。",
+          "附方": "《金匮要略》：肉桂、附子、熟地黄、山茱萸等，研末蜜丸，温补肾阳。肾气丸：肉桂配附子，温肾化气。"
+        }
+      },
+      {
+        "name": "杜仲",
+        "content": {
+          "释名": "《本草纲目》：杜仲一名思仙，生上党山谷，皮厚折断有白丝相牵，夏采皮。",
+          "气味": "辛，平，无毒。",
+          "主治": "主腰脊痛，补中益精气，坚筋骨，强志，除阴下痒湿。补肝肾，强筋骨，安胎。",
+          "发明": "李时珍曰：杜仲甘温，入肝肾，补腰膝，强筋骨，为腰痛要药；盐炙增强入肾之力。阴虚火旺者不宜单用。",
+          "附方": "《经验方》：杜仲、补骨脂、胡桃肉，研末蜜丸，温酒下，强腰健骨。杜仲汤：杜仲、续断，水煎，治腰膝酸痛。"
+        }
+      },
+      {
+        "name": "黄柏",
+        "content": {
+          "释名": "《本草纲目》：黄柏一名檗木，生汉中山谷，树皮黄厚，剥去粗皮，切片用。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主五脏肠胃中结热，黄疸，肠痔，止泄痢。清热燥湿，泻火解毒，除骨蒸潮热。",
+          "发明": "李时珍曰：黄柏苦寒，清下焦湿热，与知母相须滋阴降火；盐炙入肾，治骨蒸劳热。脾胃虚寒者忌服。",
+          "附方": "《丹溪心法》：黄柏、知母、熟地黄等，研末蜜丸，滋阴降火。知柏地黄丸：滋阴降火，治阴虚火旺。"
+        }
+      },
+      {
+        "name": "厚朴",
+        "content": {
+          "释名": "《本草纲目》：厚朴一名厚皮，生交趾山谷，树高数丈，皮紫褐色，二月、十月采皮。",
+          "气味": "苦，温，无毒。",
+          "主治": "主中风伤寒，头痛，寒热惊悸，气血痹，死肌，去三虫。燥湿消痰，下气除满。",
+          "发明": "李时珍曰：厚朴苦温，行气燥湿，消积除满，为脘腹胀满要药；姜制减其烈性。气虚津亏、孕妇慎用。",
+          "附方": "《金匮要略》：厚朴一尺，大黄四两，枳实五枚。水煎服，行气除满。厚朴三物汤：治腹满痛而大便秘结。"
+        }
+      },
+      {
+        "name": "桑白皮",
+        "content": {
+          "释名": "《本草纲目》：桑白皮即桑根白皮，桑树挖根，刮去外层黄皮，取内层白绵皮。",
+          "气味": "甘，寒，无毒。",
+          "主治": "主伤中，五劳六极，羸瘦，崩中脉绝，补虚益气。泻肺平喘，利水消肿。",
+          "发明": "李时珍曰：桑白皮甘寒入肺，泻肺中水气，平喘消肿；蜜炙润肺，生用利水。肺虚无火、小便多者忌服。",
+          "附方": "《经验方》：桑白皮、地骨皮、甘草，水煎服，泻肺清热平喘。泻白散：治肺热喘咳、皮肤蒸热。"
+        }
+      },
+      {
+        "name": "桑叶",
+        "content": {
+          "释名": "《本草纲目》：桑叶即桑树叶，经霜后采收者为佳，称霜桑叶，叶有锯齿。",
+          "气味": "苦、甘，寒，无毒。",
+          "主治": "主除寒热，出汗。疏散风热，清肺润燥，清肝明目。",
+          "发明": "李时珍曰：桑叶甘寒轻清，疏风清热，凉肝明目；秋后采者，清润肺燥力胜。脾胃虚寒者不宜久服。",
+          "附方": "《经验方》：桑叶、菊花、薄荷、桔梗，水煎服，疏风清热明目。桑菊饮：治风温初起、咳嗽咽痛。"
+        }
+      },
+      {
+        "name": "栀子",
+        "content": {
+          "释名": "《本草纲目》：栀子一名木丹，生南阳川谷，夏开白花，秋实倒卵状，生青熟黄，入药。",
+          "气味": "苦，寒，无毒。",
+          "主治": "主五内邪气，胃中热气，面赤酒疱鼻。泻火除烦，清热利湿，凉血解毒。",
+          "发明": "李时珍曰：栀子苦寒清降，清心除烦，导热下行从小便出；炒炭止血。脾虚便溏、无湿热者忌服。",
+          "附方": "《伤寒论》：栀子十四个，香豉四合。水煎服，清热除烦。栀子豉汤：治心中懊憹、虚烦不眠。"
+        }
+      },
+      {
+        "name": "酸枣仁",
+        "content": {
+          "释名": "《本草纲目》：酸枣仁即酸枣核仁，山枣实秋熟，取核破壳取仁，炒香用。",
+          "气味": "酸，平，无毒。",
+          "主治": "主心腹寒热，邪结气聚，四肢酸疼湿痹。养心补肝，宁心安神，敛汗生津。",
+          "发明": "李时珍曰：酸枣仁酸平入心肝，养心安神，为虚烦不眠要药；炒用安神，生用醒神。有实邪郁火者不宜。",
+          "附方": "《金匮要略》：酸枣仁二升，甘草一两，知母二两，茯苓二两，川芎二两。水煎服，养血安神。酸枣仁汤：治虚烦不眠、心悸盗汗。"
+        }
+      },
+      {
+        "name": "枸杞子",
+        "content": {
+          "释名": "《本草纲目》：枸杞子一名却老子，灌木秋结红实，长椭圆，柔润多汁，采干红用。",
+          "气味": "甘，平，无毒。",
+          "主治": "主五内邪气，热中消渴，周痹。滋补肝肾，益精明目，润肺。",
+          "发明": "李时珍曰：枸杞子甘平润养，补肝肾、明目，为延年益寿常用之品；根皮名地骨皮，退虚热。脾虚便溏、外邪实热者慎用。",
+          "附方": "《经验方》：枸杞子、菊花、熟地黄、山茱萸，研末蜜丸，滋肾明目。杞菊地黄丸：治肝肾阴虚、目涩视昏。"
+        }
+      },
+      {
+        "name": "沉香",
+        "content": {
+          "释名": "《本草纲目》：沉香一名沉水香，木之心节，置水则沉，香气清远，采木结香处。",
+          "气味": "辛，微温，无毒。",
+          "主治": "主风水毒肿，去恶气。行气止痛，温中止呕，纳气平喘。",
+          "发明": "李时珍曰：沉香辛温芳香，降气温中，暖肾纳气，气滞胸胁、肾虚气逆者宜之。阴虚火旺、气虚下陷者忌服。",
+          "附方": "《经验方》：沉香、木香、乌药、槟榔，水煎服，行气降逆。四磨饮：治气滞痞满、喘急。"
+        }
+      }
+  ] },
+  { "name": "服器部", "department": "服器", "page": "10服器部.html", "medicines": [] },
+  { "name": "虫部", "department": "虫", "page": "11虫部.html", "medicines": [] },
+  { "name": "鳞部", "department": "鳞", "page": "12鳞部.html", "medicines": [] },
+  { "name": "介部", "department": "介", "page": "13介部.html", "medicines": [] },
+  { "name": "禽部", "department": "禽", "page": "14禽部.html", "medicines": [] },
+  { "name": "兽部", "department": "兽", "page": "15兽部.html", "medicines": [] },
+  { "name": "人部", "department": "人", "page": "16人部.html", "medicines": [] }
+];
+
+// ★ 当前页面所属部：复制到其他部时，只改这里的部名即可（和 books 里 name 一致）
+const CURRENT_DEPT_NAME = "草部";
+
+let currentDept = detectDept();
+let currentMedicine = null;
+let currentMedIdx = -1;
+let fontSize = 16;
+let isDark = localStorage.getItem('darkMode') === '1';
+
+function toggleSidebar(){
+  const s = document.getElementById('sidebar');
+  const m = document.getElementById('mask');
+  s.classList.toggle('open');
+  m.classList.toggle('show');
+}
+
+// 三重识别：URL 参数 ?dept=gu.html → 文件名 → 页面标题里的部名 → CURRENT_DEPT_NAME 兜底
+function detectDept(){
+  const params = new URLSearchParams(location.search);
+  const p = params.get('dept');
+
+  let i = -1;
+  if (p) i = books.findIndex(b => b.page === p || b.page === p + '.html' || b.name === p);
+
+  if (i < 0) {
+    const file = decodeURIComponent(location.pathname.split('/').pop() || '');
+    i = books.findIndex(b => b.page === file);
+  }
+
+  if (i < 0) {
+    const title = document.title || '';
+    i = books.findIndex(b => title.includes(b.name));
+  }
+
+  if (i < 0) {
+    i = books.findIndex(b => b.name === CURRENT_DEPT_NAME);
+  }
+
+  return i >= 0 ? i : 0;
+}
+
+function renderText(str){
+  if(str==null) return "";
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function goPage(b){ location.href = b.page; }
+
+// 左侧药材明细
+function renderSidebar(){
+  const list = document.getElementById('med-list');
+  list.innerHTML = '';
+  const dept = books[currentDept];
+
+  if(!dept.medicines || dept.medicines.length === 0){
+    list.innerHTML = '<div class="med-empty">暂无药材，可自行添加</div>';
+    renderEmptyDept(dept);
+    return;
+  }
+
+  dept.medicines.forEach((med, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'med-item';
+    el.textContent = med.name;
+    el.onclick = ()=>{
+      loadMedicine(idx);
+      if(window.innerWidth <=768){ toggleSidebar(); }
+    };
+    list.appendChild(el);
+  });
+  loadMedicine(0);
+}
+
+// 空部门占位卡片
+function renderEmptyDept(dept){
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + '</strong>';
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">' + dept.name +
+    '</div><div class="card-sub">本部分类内容待补充</div></div></div>';
+  document.querySelectorAll('.med-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('med-pager').classList.add('hidden');
+  updateNav();
+}
+
+// 加载某一味药材
+function loadMedicine(idx){
+  const dept = books[currentDept];
+  const med = dept.medicines[idx] || dept.medicines[0];
+  if(!med){ renderEmptyDept(dept); return; }
+  currentMedicine = med;
+  currentMedIdx = dept.medicines.indexOf(med);
+
+  document.getElementById('volume-info').innerHTML = '<strong>' + dept.name + ' · ' + med.name + '</strong>';
+
+  const sections = Object.entries(med.content).map(([k,v])=>
+    '<div class="section"><div class="section-title">'+k+'：</div>'+
+    '<div class="section-text" contenteditable="true" spellcheck="false" data-key="'+k+'">'+renderText(v)+'</div></div>'
+  ).join('');
+
+  document.getElementById('content-area').innerHTML =
+    '<div class="card"><div class="card-header"><div class="card-title">'+med.name+'</div>'+
+    '<div class="card-sub">'+dept.name+'</div></div>'+sections+'</div>';
+
+  document.querySelectorAll('.med-item').forEach((el,i)=> el.classList.toggle('active', i===idx));
+  document.querySelectorAll('.section-text').forEach(el=>{
+    el.onblur = function(){
+      if(currentMedicine){ currentMedicine.content[this.dataset.key] = this.innerText; }
+    };
+  });
+  updateNav();
+  updateMedNav();
+}
+
+function updateNav(){
+  const prev = document.getElementById('prev-btn');
+  const next = document.getElementById('next-btn');
+  prev.disabled = currentDept === 0;
+  next.disabled = currentDept === books.length - 1;
+  prev.textContent = currentDept>0 ? '❮ '+books[currentDept-1].name : '❮ 上一部';
+  next.textContent = currentDept<books.length-1 ? books[currentDept+1].name+' ❯' : '下一部 ❯';
+}
+
+function prevDept(){ if(currentDept>0){ goPage(books[currentDept-1]); } }
+function nextDept(){ if(currentDept<books.length-1){ goPage(books[currentDept+1]); } }
+
+// 部内药材翻页（上一味 / 下一味）
+function updateMedNav(){
+  const dept = books[currentDept];
+  const meds = dept.medicines || [];
+  const pager = document.getElementById('med-pager');
+  const prev = document.getElementById('prev-med-btn');
+  const next = document.getElementById('next-med-btn');
+  const pos = document.getElementById('med-pos');
+
+  if(meds.length === 0){ pager.classList.add('hidden'); return; }
+  pager.classList.remove('hidden');
+
+  prev.disabled = currentMedIdx <= 0;
+  next.disabled = currentMedIdx >= meds.length - 1;
+  prev.textContent = currentMedIdx > 0 ? '❮ ' + meds[currentMedIdx-1].name : '❮ 上一味';
+  next.textContent = currentMedIdx < meds.length - 1 ? meds[currentMedIdx+1].name + ' ❯' : '下一味 ❯';
+  pos.textContent = (currentMedIdx + 1) + ' / ' + meds.length;
+}
+
+function prevMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx > 0){ loadMedicine(currentMedIdx - 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function nextMed(){
+  const meds = books[currentDept].medicines || [];
+  if(currentMedIdx < meds.length - 1){ loadMedicine(currentMedIdx + 1); window.scrollTo({top:0, behavior:'smooth'}); }
+}
+function adjustFont(d){
+  fontSize = Math.max(13,Math.min(24,fontSize+d));
+  document.getElementById('content-area').style.fontSize = fontSize+'px';
+}
+function applyTheme(){
+  document.body.classList.toggle('dark-mode', isDark);
+  const tb = document.querySelector('.theme-toggle');
+  if(tb) tb.textContent = isDark ? '☀' : '🌙';
+}
+function toggleTheme(){
+  isDark = !isDark;
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  applyTheme();
+}
+
+// 背景音乐：自动播放（先静音通过浏览器限制）；按钮切换播放/暂停
+const bgMusic = document.getElementById('bgMusic');
+const btnMusic = document.getElementById('btn-music');
+function syncMusicIcon(){ btnMusic.textContent = bgMusic.paused ? '🎵' : '🔇'; }
+bgMusic.play().then(syncMusicIcon).catch(syncMusicIcon);
+function toggleMusic(){
+  bgMusic.muted = false;
+  if(bgMusic.paused){ bgMusic.play(); } else { bgMusic.pause(); }
+  syncMusicIcon();
+}
+function unlockAudio(){
+  bgMusic.muted = false; bgMusic.play(); syncMusicIcon();
+  document.body.removeEventListener('click', unlockAudio);
+  document.body.removeEventListener('pointerdown', unlockAudio);
+  document.body.removeEventListener('touchstart', unlockAudio);
+}
+document.body.addEventListener('click', unlockAudio, { once: true });
+document.body.addEventListener('pointerdown', unlockAudio, { once: true });
+document.body.addEventListener('touchstart', unlockAudio, { once: true });
+
+applyTheme();
+document.getElementById('content-area').style.fontSize = fontSize+'px';
+renderSidebar();
+</script>
+</body>
+</html>
